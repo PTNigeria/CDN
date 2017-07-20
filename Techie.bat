@@ -1,14 +1,22 @@
 @ECHO OFF
 SET COMMITMESSAGE="Techie Inc. Autos:- %Date%".
 SET LOCALDIR=C:\WEB\WEBFILES\IYKEDAIRO\PTNigeria
-xcopy C:\Web\WEBFILES\config %LOCALDIR%\.git\config /G /Y
 CD %LOCALDIR%
 
 
 git init
-REM git config user.name PTNigeria
-REM git config user.password iykesMan22
- git config user.email PTNigeriaplc@gmail.com
+xcopy C:\Web\WEBFILES\config %LOCALDIR%\.git\config /G /Y
+git config --unset --global user.name
+git config --unset --global user.email
+git config --unset --local user.name
+git config --unset  user.email
+git config --unset  user.name
+git config --unset  user.email
+
+
+git config --local user.name PTNigeria
+git config --local user.password iykesMan22
+git config user.email PTNigeriaplc@gmail.com
 git remote add Local https://github.com/PTNigeria/CDN.git
 git remote set-url --add Local https://github.com/PTNigeria/CDN.git
 git pull Local master --allow-unrelated-histories
