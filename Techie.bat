@@ -1,7 +1,7 @@
 @ECHO OFF
 SET COMMITMESSAGE="Techie Inc. Autos:- %Date%".
 SET LOCALDIR=C:\WEB\WEBFILES\IYKEDAIRO\PTNigeria
-xcopy C:\Web\WEBFILES\config %LOCALDIR%\.git\config /G /Y
+REM xcopy C:\Web\WEBFILES\config %LOCALDIR%\.git\config /G /Y
 CD %LOCALDIR%
 
 
