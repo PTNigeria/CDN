@@ -14,7 +14,7 @@ Techie CDN
 <ul>
 <p>
 Invitees include: 
-<li>iykedairo</li><l>imichaeliyke</li>
+<li>iykedairo</li><li>michaeliyke</li>
 </p>
 <ul>
 </div>
