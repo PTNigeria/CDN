@@ -43,7 +43,7 @@ git remote -v
 git add --all :/
 git commit -m %COMMITMESSAGE% :/
 git push Local master
-REM xcopy C:\Web\WEBFILES\config %LOCALDIR%\.git\config /G /Y
+xcopy C:\Web\WEBFILES\config %LOCALDIR%\.git\config /G /Y
 
 PAUSE
 
