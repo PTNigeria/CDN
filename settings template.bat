@@ -13,6 +13,10 @@ REM git config credential.helper 'store file=C:\file.text'
 REM git remote prune Local
 REM git branch -a
 
+cmdkey /delete:git:https//github.com
+git config --system --unset credential.helper
+git config credential.helper 'store file=C:\WEB\WEBFiles\IykeDairo\Plain\gits'
+
 SET COMMITMESSAGE="Techie Inc. Autos:- %Date%".
 SET LOCALDIR=C:\WEB\WEBFILES\IYKEDAIRO\PTNigeria
 CD %LOCALDIR%
