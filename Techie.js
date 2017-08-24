@@ -23,31 +23,18 @@
                 alert(e);///////////////
             }
         } ///////////////////////////////////////////////////////////////////////////////////////
-<<<<<<< HEAD
         var b = a; //////////////////////////////////////////////////////////////////////
-=======
-        Object.prototype.a = a; //////////////////////////////////////////////////////////////////////
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
         a = function foo() {} /////////////////////////////////////////////////////////////
         a("Welcome To Techie Nigeria's JavaScript API version 1.00. All rights reserved."); //////////
         a("This is Techie. Take your time, explore the place;! Techie is a big place"); //////////////
 
-<<<<<<< HEAD
 window.a = b;
-=======
-
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
         factory(global);
     } // Pass this if window is not defined yet
 }(typeof window !== "undefined" ? window : this, function factor(global) {
 
-<<<<<<< HEAD
 }, function factory(root, sapi, pt, factor) { 
      var b = window.a;a = function foo() {
-=======
-}, function factory(root, sapi, pt, factor) {
-    a = function foo() {
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             return false
         } /////////////////////////////////////////////////////////
     this.pt = pt = Techie;
@@ -183,11 +170,7 @@ window.a = b;
         on: function(event, fn, object) {//window.on("scroll", function(){})
         object = object || this;
             object = isList(object) ? object : [object];
-<<<<<<< HEAD
             forEach(function( object, index) {
-=======
-            forEach(function(index, object) {
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                 Events.addHandler(object, event, fn);
             }, object); 
             return this;
@@ -288,15 +271,12 @@ window.a = b;
             }
         }
     }
-<<<<<<< HEAD
     function Globalize ( object ) {//puts properties on the window object
        //object is an object containing key : value pairs to populate the global name-space with
         for (var index in object ){
             if (!window[index]) { window[index] = object[index];}
         }
     }
-=======
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 
     function DefineGlobals(object, array) {
         if (arguments.length < 2) {
@@ -331,20 +311,14 @@ window.a = b;
         stop = stop || array.length;
         var argsArray = [],
             length = stop,
-<<<<<<< HEAD
             i = 0; 
         for (; i < length; i++) {
-=======
-            i = 0;
-        for (; i < length && array[n] != null; i++) {
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             argsArray[i] = array[n];
             n++
         }
         return argsArray;
     }
 
-<<<<<<< HEAD
 function List ( array ) {
     List.array = typeof List.array === "undefined" ? [] : List.array;
     List.Length = typeof  List.Length === "undefined" ? 0 :  List.Length;
@@ -377,9 +351,6 @@ function computeWin(){
     } 
 
     function explod(array, n) {
-=======
-    function explode(array, n) {
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
         if (typeof array !== 'object' && typeof array !== 'array') {
             return null;
         }
@@ -405,7 +376,6 @@ function computeWin(){
         }(argsArray);
     }
 
-<<<<<<< HEAD
 function Reduce ( combine, base, array ) {
     array = Techie.explode ( arguments, 2 );
     base = typeof base === "number" && base % 1 == 0 ? base : 0;
@@ -425,8 +395,6 @@ if ( combine (12, 2) == (function ( a, b ) { return a * b; }(12, 2)) ) { base = 
     return base;
     }
  }
-=======
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 
 
     function isHTML(s) {
@@ -480,16 +448,8 @@ if ( combine (12, 2) == (function ( a, b ) { return a * b; }(12, 2)) ) { base = 
 
 
     function Techie(selector, context) {
-<<<<<<< HEAD
         //Welcome To Techie JavaScript API version 1.0.0; The Techie constructor lives inside Techie
         return this instanceof Techie ? Techie(selector, context) : new Techie.sapi.Techie(selector, context);
-=======
-        //Welcome To Techie JS API version: 1.00 All Rights Reserved.
-        if (!(this instanceof Techie)) {
-            return new Techie.sapi.Techie(selector, context);
-        }
-        return Techie((selector || this), context);
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
     }
 
 
@@ -544,34 +504,20 @@ if (str != null) {
             }
             var prevObject, nextObject;
             if (nodes.length) {
-<<<<<<< HEAD
                 forEach(function(e, i, o) {
                     this[i] = e;
                     try {
 prevObject = e.previousElementSibling;
 nextObject = Techie.element.next( e );
-=======
-                forEach(function(i, e, o) {
-                    this[i] = e;
-                    try {
-prevObject = e.previousElementSibling;
-nextObject = e.nextElementSibling;
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 DefineProperties(this[i], element, false);
 DefineAccessors(this[i], "CSS", function gettr(){return  function(object, option ){
         option = ( object && (object.nodeType || isCollection(object))) ? (option || "") : object; 
         object = option == object ? this : object;return styles(object, option); };}, styles);
 DefineAccessors(this[i], "css", function gettr(){return  function(object, option, more){
 if (arguments.length == 3) { return styles(object, option, more)}
-<<<<<<< HEAD
     else if ((arguments.length == 2)) { return styles.call(this, object, option);}
         else if (arguments.length == 1) {
             return styles(this, object);} else{ return styles(this);}
-=======
-    else if ((arguments.length == 2)) {
-        return styles.call(this, object, option);}
-        else if (arguments.length == 1) { return styles(object)} else{ styles(this);}
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 
 /*option = ( object && (object.nodeType || isCollection(object))) ? (option || "") : object; 
 a(option)
@@ -600,7 +546,6 @@ DefineAccessors(this[i], "styles", function gettr(){return  function(object, opt
 
 
 
-<<<<<<< HEAD
 status: function() {
  return sapi.readyState;
 },
@@ -618,42 +563,14 @@ isReady: function () {
  return (sapi.readyState === 'loaded' || sapi.readyState === 'complete');
 },
   isready: false,
-=======
-
-        get status() {
-            return sapi.readyState;
-        },
-        get state(){
-            return sapi.readyState;
-        },
-        get readyState (){
-            return sapi.readyState;
-        },
-        get isReady() {
-            return (sapi.readyState === 'loaded' || sapi.readyState === 'complete');
-        },
-
-        get version() {
-            return this.version;
-        },
-        
-        isready: false,
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 
         onReady: function(func) {
             this.isready = true;
             var head = sapi.head,
-<<<<<<< HEAD
             body = Techie.element.next(  head );
             this.body = body;
             this.head = head;
             func.call(this,  body, head, sapi, Techie, SAPI, window);
-=======
-                body = head.nextElementSibling;
-            this.body = body;
-            this.head = head;
-            func.call(this, this, sapi, body, head, Techie, window);
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
         },
         READY: function(func) {
             var args = Array.prototype.slice.call(this, arguments);
@@ -669,7 +586,6 @@ isReady: function () {
 
 
 DomReadyState: false,isHTML: isHTML,isNode: isNode,isNodeList:isNodeList,dim: dim,
-<<<<<<< HEAD
 Slice: Slice,slice: slice,isTag: isTag,plain: plain,isList: isList, bind: bind, Globalize: Globalize,
 isArrayLike: isArrayLike,DefineGlobals: DefineGlobals,Elements: Elements,
 html: html,HTML: html,events: Events,Events: Events, mixin: mixin,baseuri: baseuri,
@@ -681,19 +597,6 @@ Extender: Extender,isCollection: isCollection,populate: populate, List: List,
 Bool: type,walk_the_DOM: walk,walk: walk,DefineProperty: DefineProperty,
 nthChild: nthChild,DefineProperties: DefineProperties,explode: explode,DefineAccessors: DefineAccessors,
 index: index,Index: Index,Children: Children,type: type,types: type, Reduce: Reduce,
-=======
-Slice: Slice,slice: slice,isTag: isTag,plain: plain,isList: isList,
-isArrayLike: isArrayLike,DefineGlobals: DefineGlobals,Elements: Elements,
-html: html,HTML: html,events: Events,Events: Events,body: sapi.body,
-head: sapi.head,mixin: mixin,baseuri: baseuri,BaseUri: BaseUri,
-SAPI: SAPI,pt: Techie,URL: URL,url: url,Url: url,uri: uri,URI: URI,
-BaseURI: BaseURI,upper: upper,lower: lower,page: true,Store: {},store: [],
-array: [],create: create,createFrag: createFrag,isElement: isHTML,
-Extender: Extender,isCollection: isCollection,populate: populate,
-Bool: type,walk_the_DOM: walk,walk: walk,DefineProperty: DefineProperty,
-nthChild: nthChild,DefineProperties: DefineProperties,explode: explode,DefineAccessors: DefineAccessors,
-index: index,Index: Index,Children: Children,type: type,types: type,
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 ChildPos: ChildPos,tag: tag,blob: blob,element: element,show: show,
 objects: objects,arrays: arrays,functions: functions,strings: strings,
 numbers: numbers,booleans: booleans, removeClass: removeClass,
@@ -1082,11 +985,7 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
 
 
         Log: function(text, bool, element) {
-<<<<<<< HEAD
             Techie.ready(function(body, head, doc, PT, _, w) {
-=======
-            Techie.ready(function(techie, sapi, body, head, PT, w) {
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                 if (bool != false) {
                     this.hideErrors();
                 }
@@ -1116,11 +1015,7 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
             var msg = Techie('msg'),
                 error = Techie("#err");
             err = msg[0] ? msg : error;
-<<<<<<< HEAD
             forEach(function(err, index) {
-=======
-            forEach(function(index, err) {
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                 if (isHTML(err)) {
                     err.style.display = 'none';
                 }
@@ -1149,7 +1044,6 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
             return error;
         },
 
-<<<<<<< HEAD
         methods: function(o, boo) {
             var stk = [],
                 j, i;
@@ -1163,21 +1057,6 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
                     }
                 }      
             }if (boo == true) {stk = stk.sort(this.Alphabetical);}
-=======
-        methods: function(o) {
-            var stk = [],
-                j, i;
-            o = o || pt;
-            for (i in o) {
-                j = o[i];
-                if (functions(j)) {
-                    if (o.hasOwnProperty(i)) {
-                        stk.push(h4 + (typeof o[i]) + ': ' + i);
-                    }
-                }
-                // stk = stk.sort(this.Alphabetical);
-            }
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             this.Log(stk, false);
             return stk;
         },
@@ -1626,11 +1505,7 @@ DefineAccessors(Techie.prototype, "Extend", function gttr(){
 
     DefineAccessors(Techie.prototype, "ready", function gttr() {
         /*///////////////////ready getter/////////////////////////*/
-<<<<<<< HEAD
         a = b; /////////////////ready getter//////////////////
-=======
-        a = {}.a; /////////////////ready getter//////////////////
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 
         var timer;
         return function(fn) {
@@ -1638,41 +1513,24 @@ DefineAccessors(Techie.prototype, "Extend", function gttr(){
                 if (this.isReady) {
                     clearInterval(timer);
                     var head = sapi.head;
-<<<<<<< HEAD
                     var body = this.element.next(sapi.head);
                     fn.call(this, body, head, sapi, Techie, SAPI, window);
 
                     return this.status;
                 } 
-=======
-                    var body = head.nextElementSibling;
-                    fn.call(this, this, sapi, body, head, Techie, window);
-
-                    return this.status;
-                }
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             }.bind(this), 0);
         };
     }, function sttr(fn) {
         /*///////////////////ready setter/////////////////////////*/
-<<<<<<< HEAD
         a = b; ////////////////ready setter////////////////////
-=======
-        a = {}.a; ////////////////ready setter////////////////////
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 
         var timer;
         timer = setInterval(function() {
             if (this.isReady) {
                 clearInterval(timer);
                 var head = sapi.head;
-<<<<<<< HEAD
                  var body = this.element.next(sapi.head);
                     fn.call(this, body, head, sapi, Techie, SAPI,  window);
-=======
-                var body = head.nextElementSibling;
-                fn.call(this, this, sapi, body, head, Techie, window);
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                 return this.status;
             }
         }.bind(this), 0);
@@ -1681,11 +1539,7 @@ DefineAccessors(Techie.prototype, "Extend", function gttr(){
 
     DefineAccessors(Techie.prototype, 'Ready', function gttr() {
             /*/////////////////////Ready getter///////////////////////*/
-<<<<<<< HEAD
             a = b; /////////////////Ready getter///////////////////
-=======
-            a = {}.a; /////////////////Ready getter///////////////////
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             return function(fn) {
                 if (this.isready) {
                     this.onReady.bind(this, fn);
@@ -1696,11 +1550,7 @@ DefineAccessors(Techie.prototype, "Extend", function gttr(){
         },
         function sttr(fn) {
             /*/////////////////Ready setter///////////////////////////*/
-<<<<<<< HEAD
             a = b; ///////////////Ready setter/////////////////////
-=======
-            a = {}.a; ///////////////Ready setter/////////////////////
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             if (this.isready) {
                 this.onReady.bind(this, fn);
             } else {
@@ -1725,20 +1575,12 @@ DefineAccessors(Techie.prototype, "Extend", function gttr(){
                 var index = 0,
                     length = object.length;
                 for (index; index < length; ++index) {
-<<<<<<< HEAD
                     fn.call(thisArg || object[index], object[index], index, object);
-=======
-                    fn.call(thisArg || object[index], index, object[index], object);
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                 }
             } else {
                 for (index in object) {
                     if (object.hasOwnProperty(index)) {
-<<<<<<< HEAD
                         fn.call(thisArg || object[index], object[index], index, object);
-=======
-                        fn.call(thisArg || object[index], index, object[index], object);
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                     }
                 }
             }
@@ -1804,11 +1646,7 @@ DefineAccessors(Techie.prototype, "styles", function gettr(){
         if (arguments.length == 3) {return styles(object, option, more).bind(this);}
 var this_bool = !!(this.nodeType || isCollection(this));
 var object_bool = !!(object.nodeType || isCollection(object));
-<<<<<<< HEAD
 if (object_bool) {return styles(object, style);}
-=======
-if (object_bool) {return styles(object, style).bind(this);}
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 if (this_bool) {
     if (typeof style === "string" && typeof object === "string") { return styles(this, object, style)}
         else if(style) {return console.log("Syntax error: Usage:--- pt(#div).css({}||[]||'cssTextblob')")}
@@ -1849,18 +1687,12 @@ if (isHTML(this) || isCollection(this)) {//a(Techie)
 } if (isHTML(element) || isCollection(element)){
     element = element;
 if (typeof style === "string") {
-<<<<<<< HEAD
     if (style.match(propReg)) { 
 var elem = element.nodeType ? element : element[0];
         ret = computedStyle(elem)[style];
     }     else if (style.match(cssTextblob)) {string = style;
     } else if (!style.length) { var elem = element.nodeType ? element : element[0];
      ret = pt.stringifyAll(computedStyle(elem), false);}
-=======
-    if (style.match(propReg)) { ret = computedStyle(element)[style];
-    }     else if (style.match(cssTextblob)) {string = style;
-    } else if (!style.length) { ret = pt.stringifyAll(computedStyle(element), false);}
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 }   else if (toString.call(style) == "[object Array]") {
         if (style.length < 2) {
             string = style[0];
@@ -1875,13 +1707,8 @@ if(!element)   {   throw new Error(elementError);}
 }   
 //ONE ARGUMENT SUPPLIED
 
-<<<<<<< HEAD
 else if (arguments.length == 1) { 
  (isHTML(element) || isCollection(element)) ? style = style : style = element; 
-=======
-else if (arguments.length == 1) {
- (isHTML(element) || isCollection(element)) ? style = style : style = element;
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 element = (isHTML(element) || isCollection(element)) ? element : (isHTML(this) || isCollection(this)) ? this :  null;
 if (!element) { throw new Error("Techie.css -- no element provided. ");}
 if (!style) { ret = pt.stringifyAll(computedStyle(element), false);
@@ -1910,28 +1737,16 @@ if (!style) { ret = pt.stringifyAll(computedStyle(element), false);
 } 
 
 element = element.length ? element : [element];
-<<<<<<< HEAD
 forEach(function(element, index){
     if (string) {
 element.style.cssText = string; ret = this;
 }else if (array) { 
     forEach (function (  style, index ){
-=======
-forEach(function(index, element){
-    if (string) {
-element.style.cssText = string; ret = this;
-}else if (array) { 
-    forEach (function ( index, style ){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
         element.style.cssText += style; ret = this;
     }, array, this);
     }
     else if (object) {
-<<<<<<< HEAD
         forEach (function (  style, prop ){
-=======
-        forEach (function ( prop, style ){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             element.style[prop] = style; ret = this;
         }, object, this);
     }
@@ -1960,29 +1775,17 @@ if (typeof object === 'string' && typeof styleOptions === 'string') {
     if (!isHTML(this) && !isCollection(this)) {
         throw new Error(err("No HTML object found."))
     }html = isList(this) ? this : [this];
-<<<<<<< HEAD
             forEach(function( element, index){
-=======
-            forEach(function(index, element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             element.style[object] = styleOptions;
  }, html) ; return this;
         }
 if (typeof styleOptions === 'string') {
-<<<<<<< HEAD
 forEach(function( element, index){
-=======
-forEach(function(index, element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
        element.style.cssText += styleOptions;
 }, html);return this;
 } 
 if (toString.call(styleOptions) == "[object Array]") {
-<<<<<<< HEAD
     forEach(function( element, index){
-=======
-    forEach(function(index, element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 styleOptions.forEach(function(style){
     element.style.cssText += style;
 });
@@ -1990,11 +1793,7 @@ styleOptions.forEach(function(style){
  return this;
 }
 if (toString.call(styleOptions) != "[object Object]") {return;}
-<<<<<<< HEAD
 forEach(function( element, indices){
-=======
-forEach(function(indices, element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 for(index in styleOptions){
  element.style[index] = styleOptions[index];
 }
@@ -2007,11 +1806,7 @@ function computedStyle( dom ) {
         // FireFox and Chrome way
         if(window.getComputedStyle){
             style = window.getComputedStyle(dom || this, null);
-<<<<<<< HEAD
             forEach(function( prop, index){
-=======
-            forEach(function(index, prop){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                 val = style.getPropertyValue(prop);
                 returns[prop] = val;
             }, style);
@@ -2066,11 +1861,7 @@ attr = (!attr || value == attr) ? element : attr;//rebasing accordingly
 element = (element == attr) ? this : element;//this reconaissance
 if (!isCollection(element)) {element = [element];}
 var count = 0; var   valueAdded;
-<<<<<<< HEAD
 forEach(function( element, index){
-=======
-forEach(function(index,element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 
 
 
@@ -2132,11 +1923,7 @@ value || ((thisOption && typeof attr !== "undefined") ? attr : "");
 attr = (!attr || value == attr) ? element : attr;
 element = (element == attr) ? this : element;
 if (!isCollection(element)) {element = [element];}
-<<<<<<< HEAD
 forEach(function( element, index ){
-=======
-forEach(function(index,element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 var noNode = !isNode(element); var counter = 0;
 if (typeof attr !== "string" || typeof value !== "string" || noNode) {
 	throw new Error('Techie.removeAttr(elem, "id", "show")');
@@ -2169,11 +1956,7 @@ classname = typeof classname !== "undefined" ?
 context = classname === context ? this : context;//Reconaissance
 if (!(isHTML(context) || isCollection(context))) {throw new Error(throwError);}
 if(!isList(context)){context = [context];}
-<<<<<<< HEAD
 pt.forEach(function( element, index  ){var nType = element.nodeType;
-=======
-pt.forEach(function(index, element){var nType = element.nodeType;
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 if ( nType === 3 || nType === 8 || nType === 2 ) { return; }
 if (element.className.length) { var classString = element.getAttribute("class");
 var className = classString.split(/\s+/); var counter = 0, stack = [];
@@ -2199,11 +1982,7 @@ var throwError = "Techie.addClass:--pt.addClass(elemObj, 'className')";
 		throw new Error(throwError);
 	}
 	if(!isList(context)){context = [context]}
-<<<<<<< HEAD
 	pt.forEach(function( context, index ){nType = context.nType;
-=======
-	pt.forEach(function(index, context){nType = context.nType;
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 		if ( nType === 3 || nType === 8 || nType === 2 ) { return; }
 		if (context.className.length) {
 		context.className = context.className.concat("	" + classname);
@@ -2224,13 +2003,8 @@ return this;
             stk = [],
             arr = pt.explode(all[0]),
             items = (pt.isArrayLike(all[1])) ? pt.explode(all[1]) : String(slice.call(arguments, 1)).split(',');
-<<<<<<< HEAD
         pt.each(function(e, i, itms) {
             pt.each(function(k, j, o) {
-=======
-        pt.each(function(i, e, itms) {
-            pt.each(function(j, k, o) {
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                 if (e == j) {
                     store[e] = k;
                     stk.push(k);
@@ -2278,11 +2052,7 @@ return this;
         var temp = sapi.createElement("p");
         temp.innerHTML = blob;
         if (!temp.firstChild) { throw new Error("createFrag could not create the node from fragment. ");}
-<<<<<<< HEAD
         forEach(function( context, index ){
-=======
-        forEach(function(index, context){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
         if(typeof context === 'object' && context.nodeType){
             context.appendChild(temp.firstChild);
         }
@@ -2312,10 +2082,7 @@ return this;
 
 
     function isList(array) {
-<<<<<<< HEAD
         if (!arguments.length) { array = this;}
-=======
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
         if( array && Object.prototype.toString.call(array) != "[object String]"){
       if (array.length && typeof array.length === 'number' && array.hasOwnProperty('0')) {
             return true;
@@ -2627,11 +2394,7 @@ try { name = upper.call(name);} catch (err) { return false;}
                         "[object Null]", "[object Undefined]"
                     ],
                     isPrimitive = false;
-<<<<<<< HEAD
                 forEach(function( eachPrimitive, index,  primitives) {
-=======
-                forEach(function(index, eachPrimitive, primitives) {
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                     if (toString.call(datum) == eachPrimitive) {
                         isPrimitive = true;
                     }
@@ -2885,7 +2648,6 @@ try { name = upper.call(name);} catch (err) { return false;}
             element.appendChild(child);
             return this;
         },
-<<<<<<< HEAD
         unwrap: function ( e ) { // used to unwrap e or this i.e, change its parent  to the parent of its parent
 
         },
@@ -2958,23 +2720,6 @@ this.e = typeof this.e  === "undefined" ?  e.parentNode.firstChild : this.e;
         if (this.e.nodeType == 1) {
             this.stack.push(this.e);( fn || function(){}).call(this.e, this.e);}
        this.e = this.e.nextSibling; this.siblings(this.e, fn);
-=======
-        removeChild: function(element, child) {
-            if (toString.call(child) == '[object Number]') {
-                child = Children(element, child);
-            }
-            if (isHTML(child)) {
-                child.style.display = none;
-            }
-            return this;
-        },
-   siblings: function(node, fn){if (node == null) {return;}
-this.stack = this.stack || [];
-this.node = this.node || node.parentNode.firstChild;
-    if (this.node) {
-        if (this.node.nodeType == 1) {this.stack.push(this.node);( fn || function(){}).call(this.node, this.node);}
-       this.node = this.node.nextSibling; this.siblings(this.node, fn); 
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
     }
 return  this.stack;
 },
@@ -2990,27 +2735,18 @@ return  this.stack;
             element = element || this;
             return Children(element);
         },
-<<<<<<< HEAD
         getPreviousSibling: function(e) {
         this.prevSib = (typeof  this.prevSib !== "undefined") ? this.prevSib : e.previousSibling;  
         if (!(this.prevSib && this.prevSib.nodeType)) {return;}
             if ( this.prevSib.nodeType != 1 ) {  this.prevSib = this.prevSib.previousSibling;  
                 this.getPreviousSibling(this.prevSib); 
             }   return this.prevSib
-=======
-        getPrevSib: function(element) {
-        this.prevSib = (typeof  this.prevSib !== "undefined") ? this.prevSib : element.previousSibling;  
-        if (!(this.prevSib && this.prevSib.nodeType)) {return;}
-            if ( this.prevSib.nodeType != 1 ) {  this.prevSib = this.prevSib.previousSibling;  this.getPrevSib(this.prevSib); } 
-          return this.prevSib
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
         },
         next: function(e){
             this.node = typeof this.node === "undefined" ? e.nextSibling : this.node;
             if (this.node.nodeType != 1) { this.node = this.node.nextSibling; this.next(this.node);}
                return this.node;
         },
-<<<<<<< HEAD
         previous: function (  e ) {
         this.previousSib = (typeof  this.previousSib !== "undefined") ? this.previousSib : e.previousSibling;  
         if (!(this.previousSib && this.previousSib.nodeType)) {return;}
@@ -3019,9 +2755,6 @@ return  this.stack;
           return this.previousSib;
         },
         getNextSibling: function(element) { 
-=======
-        getNextSib: function(element) { 
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             this.nextSib = (typeof this.nextSib !== "undefined") ? this.nextSib : element.nextSibling;
              if (!(this.nextSib && this.nextSib.nodeType)) { return;}
             if ( this.nextSib.nodeType != 1) { this.nextSib =   this.nextSib.nextSibling; this.getNextSib(this.nextSib); }
@@ -3057,11 +2790,7 @@ return  this.stack;
            var context = previousSibling == element ? this : element;
            if ( !previousSibling.nodeType && !(context.nodeType || isCollection(context)) ) {return;}
            context = context.nodeType ? [context] : context;
-<<<<<<< HEAD
            forEach (function( element, index ){
-=======
-           forEach (function(index, element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                       element.parentNode.insertBefore(previousSibling, element);
  }, context);
             return this;
@@ -3072,11 +2801,7 @@ return  this.stack;
            var context = nextSibling == element ? this : element;
            if ( !nextSibling.nodeType && !(context.nodeType || isCollection(context)) ) {return;}
            context = context.nodeType ? [context] : context;
-<<<<<<< HEAD
            forEach (function( element, index ){
-=======
-           forEach (function(index, element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             element.parentNode.insertBefore(nextSibling, element.nextSibling);
            }, context);
             return this;
@@ -3087,11 +2812,7 @@ return  this.stack;
            var context = child == element ? this : element;
            if ( !child.nodeType && !(context.nodeType || isCollection(context)) ) {return;}
            context = context.nodeType ? [context] : context;
-<<<<<<< HEAD
            forEach (function( element, index ){
-=======
-           forEach (function(index, element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             element.insertBefore(child, element.firstChild);
            }, context);
             return this;
@@ -3102,11 +2823,7 @@ return  this.stack;
            var context = child == element ? this : element;
            if ( !child.nodeType && !(context.nodeType || isCollection(context)) ) {return;}
            context = context.nodeType ? [context] : context;
-<<<<<<< HEAD
            forEach (function( element, index ){
-=======
-           forEach (function(index, element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             element.insertBefore(child, element.lastChild)
            }, context);
             return this;
@@ -3117,11 +2834,7 @@ return  this.stack;
            var context = nextSibling == element ? this : element;
            if ( !nextSibling.nodeType && !(context.nodeType || isCollection(context)) ) {return;}
            context = context.nodeType ? [context] : context;
-<<<<<<< HEAD
            forEach (function( element, index ) {
-=======
-           forEach (function(index, element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
               element.parentNode.insertBefore(nextSibling, element.nextSibling);
          }, context);
             return this;
@@ -3132,11 +2845,7 @@ return  this.stack;
            var context = previousSibling == element ? this : element;
            if ( !previousSibling.nodeType && !(context.nodeType || isCollection(context)) ) {return;}
            context = context.nodeType ? [context] : context;
-<<<<<<< HEAD
            forEach (function( element, index ){
-=======
-           forEach (function(index, element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                        element.parentNode.insertBefore(previousSibling, element);
 }, context);
             return this;
@@ -3159,11 +2868,7 @@ return  this.stack;
            var context = child == element ? this : element;
            if ( !child.nodeType && !(context.nodeType || isCollection(context)) ) {return;}
            context = context.nodeType ? [context] : context;
-<<<<<<< HEAD
            forEach (function( element, index ){
-=======
-           forEach (function(index, element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             element.insertBefore(child, element.firstChild);
            }, context);
            return this;
@@ -3206,11 +2911,7 @@ throw new Error("Not supported.");
            var context = child == element ? this : element; a(context)
            if ( !child.nodeType && !(context.nodeType || isCollection(context)) ) {return;}
            context = context.nodeType ? [context] : context;
-<<<<<<< HEAD
            forEach (function( element, index ){
-=======
-           forEach (function(index, element){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             element.appendChild(child);
 
            }, context);
@@ -3251,17 +2952,6 @@ throw new Error("Not supported.");
         show: show,
         mixin: mixin,
         extend: extend,
-<<<<<<< HEAD
-=======
-        set fool(foo){
-            alert(foo);
-        },
-        get fool(){
-return function(foo){
-    Techie.Log(foo);
-};
-        },
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
         Extender: Extender
     };
 
@@ -3283,13 +2973,8 @@ option = ( object && (object.nodeType || isCollection(object))) ? (option || "")
     };
 }, styles);
 
-<<<<<<< HEAD
 DefineAccessors(Elements.props, "css", function (  ) {
 return  function( object, option ) { 
-=======
-DefineAccessors(Elements.props, "css", function(){
-return  function(object, option ){
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 option = ( object && (object.nodeType || isCollection(object))) ? (option || "") : object; 
                 object = option == object ? this : object;
        return styles(object, option);
@@ -3301,7 +2986,6 @@ option = ( object && (object.nodeType || isCollection(object))) ? (option || "")
 
     //utilities
     function Children(parent) { //Children(body, 4)
-<<<<<<< HEAD
         var children = [], child = null, thisB = this.nodeType && this.nodeType == 1 ? true : false;
         if (!arguments.length && !thisB ) {
             throw new Error("Techie.Children:- No object HTMLElement specified.");
@@ -3309,22 +2993,10 @@ option = ( object && (object.nodeType || isCollection(object))) ? (option || "")
         if (!arguments.length) { parent = this;}
         if (arguments.length == 1) {
             if (thisB) {    child = parent;  parent = this;
-=======
-        var children = [],
-            child = null;
-        if (!arguments.length && !isHTML(this)) {
-            throw new Error("Techie: No object HTMLElement specified.");
-        }
-        if (arguments.length == 1) {
-            if (isHTML(this)) {
-                child = parent;
-                parent = this;
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             } else {
                 parent = arguments[0]
             }
         }
-<<<<<<< HEAD
         if (arguments.length > 1) {  parent = arguments[0];  child = arguments[1];
         }    if (  !( parent.nodeType && (parent.nodeType == 1) )  ) {
             throw new Error("Techie: " + parent + " is not object HTMLElement.")
@@ -3338,25 +3010,6 @@ option = ( object && (object.nodeType || isCollection(object))) ? (option || "")
             var pos = children[ child ];
             return pos ? pos : null;
         } else if (child && child.nodeType && child.nodeType == 1) {
-=======
-        if (arguments.length > 1) {
-            parent = arguments[0];
-            child = arguments[1];
-        }
-        if (!isHTML(parent)) {
-            throw new Error("Techie: " + parent + " is not object HTMLElement.")
-        }!(function next(div) {
-            if (isHTML(div)) {
-                children.push(div);
-                div = div.nextElementSibling;
-                next(div);
-            }
-        }(parent.firstElementChild));
-        if (typeof child === "number") {
-            var pos = children[child];
-            return (pos < 0) ? null : pos;
-        } else if (isHTML(child)) {
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             return children.indexOf(child);
         }
         return children;
@@ -3368,7 +3021,6 @@ option = ( object && (object.nodeType || isCollection(object))) ? (option || "")
     }
 
 
-<<<<<<< HEAD
 function bind (This) {
     var arg = arguments, slice = Array.prototype.slice, args = slice.call(arg, 1);
     fn = this; function foo () {} 
@@ -3383,11 +3035,6 @@ function bind (This) {
 
     function nthChild(parent, child) { //nthChild(body, 6)
         if (!(parent.nodeType && parent.nodeType == 1) && typeof child === "number") {
-=======
-
-    function nthChild(parent, child) { //nthChild(body, 6)
-        if (!isHTML(parent && typeof child === "number")) {
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             throw new Error("Techie: Usage: nthChild(body, 3) //The 3rd element in the parentElement");
         }
         return Children(parent, child);
@@ -3409,11 +3056,7 @@ function bind (This) {
             } else {
                 nodes = [e]
             }
-<<<<<<< HEAD
             forEach(function( node, index, all ) {
-=======
-            forEach(function(index, node, all) {
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                 this[index] = node;
                 try {
                     DefineProperties(this[index], element, false);
@@ -3463,12 +3106,9 @@ function bind (This) {
 
 
     function blob(b) {
-<<<<<<< HEAD
         var normalTag  = /<(.*)>(.*)<\/(.*)>/; //extract outermost tag in a blob position : [3]
         var singleTag = s = /<\s*\/?\s*(\w+)(.*)\/?>/; //extract tag of a single tag: [1]
         var datum = /(?=\s*\<\s*\w+\s*\>){1,1}^[\s*\S*\w*\W*]*(<\\{0,1}\s*\/*\w+\s*\>\s*$)/;
-=======
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
         var blb = /(?=\s*\<\s*\w+\s*\>){1,1}^[\s*\S*\w*\W*]*(<\\{0,1}\s*\/*\w+\s*\>\s*$)/.test(b);
         if (this instanceof blob && blb) {
             return createFrag(b);
@@ -3483,29 +3123,17 @@ function bind (This) {
         context = (typeof context === 'object' && context.querySelectorAll) ? context : document;
         var nodes = [];
         if (isList(selector)) {
-<<<<<<< HEAD
             nodes = selector.length > 1 ? slice.call(selector) : [selector];
         }
         if (typeof selector === 'string') {
             if (selector[0] === '<' && selector[selector.length - 1] === ">") {
                 nodes = [createFrag(seolector, context)];
-=======
-            nodes = selector.length > 1 ? slice.call(selector) : selector;
-        }
-        if (typeof selector === 'string') {
-            if (selector[0] === '<' && selector[selector.length - 1] === ">") {
-                nodes = [createFrag(selector, context)];
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             } else {
                 nodes = slice.call(context.querySelectorAll(selector));
             }
         }
         if (nodes.length) {
-<<<<<<< HEAD
             forEach(function( node, index, all) {
-=======
-            forEach(function(index, node, all) {
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                 this[index] = node;
                 try {
                     DefineProperties(this[index], element, false);
@@ -3576,7 +3204,6 @@ return count;
     }
 
     function isArrayLike(e) {
-<<<<<<< HEAD
         if (Array.isArray(e)) {  return true; }
         var r = Object.prototype.toString.call(e);
         if (r === "[object HTMLCollection]" || r === "[object NodeList]") { return true;}
@@ -3596,46 +3223,6 @@ return count;
                         break;
   }  } } }
         return object;
-=======
-        if (Array.isArray(e)) {
-            return true;
-        }
-        var r = Object.prototype.toString.call(e);
-        if (r === "[object HTMLCollection]" || r === "[object NodeList]") {
-            return true;
-        }
-        if (typeof e !== "object" || !e.hasOwnProperty("length") || e.length < 0) {
-            return false;
-        }
-        if (e.length === 0) {
-            return true;
-        } else if (e[0] && e[0].nodeType) {
-            return true;
-        }
-        return false;
-    }
-
-    function forEach(fn, o, d) {
-        var l, i = 0;
-        o = o || this;
-        if (isArrayLike(o)) {
-            l = o.length;
-            for (; i < l; i++) {
-                if (fn.call(d || o[i], i, o[i], o) === false) {
-                    break;
-                }
-            }
-        } else {
-            for (i in o) {
-                if (ownProp(o, i)) {
-                    if (fn.call(d || o[i], i, o[i], o) === false) {
-                        break;
-                    }
-                }
-            }
-        }
-        return o;
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
     }
 
     function HTML(contnt) {
@@ -3665,26 +3252,18 @@ return count;
         if (Object.getOwnPropertyDescriptor) {
             Object.keys(supplier).forEach(function(property) {
                 var descriptor = Object.getOwnPropertyDescriptor(supplier, property);
-<<<<<<< HEAD
                 if (!(property in receiver)) {
                     Object.defineProperty(receiver, property, descriptor);
                 }
                 
-=======
-                Object.defineProperty(receiver, property, descriptor);
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
             });
         } else {
             for (var property in supplier) {
                 if (supplier.hasOwnProperty(property)) {
-<<<<<<< HEAD
                     if (!receiver [ property ]) {
                         receiver[ property ] = supplier[ property ]
                     }
                     
-=======
-                    receiver[property] = supplier[property]
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
                 }
             }
             return receiver;
@@ -3692,7 +3271,6 @@ return count;
     }
 
 
-<<<<<<< HEAD
 ////////////////////
     //The lifeblood
     //Techie.addHandler
@@ -3724,37 +3302,6 @@ Globalize ({
     Log: Techie.Log, sapi:sapi,SAPI: SAPI, pt: Techie, log:Techie.Log, Techie: Techie
 });
     // window.Log = log;
-=======
-
-    
-////////////////////
-    //The lifeblood
-    //Techie.addHandler
-    mixin(Techie.prototype, Techie.EventUtil);
-    //sapi.Techie(o).each(fn);
-    sapi.Techie = Techie.sapi;
-    //life of Techie constructor
-    Techie.sapi.Techie.prototype = Techie.sapi;
-    //Techie.each(fn,r,this)
-    mixin(Techie, Techie.sapi);
-    //pt.pt.pt.each(f,r,this)
-    mixin(Techie.sapi, Techie.sapi.Techie);
-    //sapi.each(fn,o,this)
-    // mixin(Techie, Techie.sapi);
-
-
-
-    //Trick Ends
-    //////////////////////
-    window.Techie = Techie;
-    window.sapi = sapi;
-    window.SAPI = SAPI;
-    window.pt = Techie;
-    window.log = function(a, b, c) {
-        return Techie.Log(a, b, c);
-    };
-    window.Log = log;
->>>>>>> 27e29b03fb67797afc45ee939b709ad4ce5822b9
 
 
     a("Techie Farewell!");
