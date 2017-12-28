@@ -3063,9 +3063,9 @@ return  this.stack;
              if (!element) {return;}
             if (!child) { child = element; element = this;}
            var context = child == element ? this : element;
-           if (!(isCollection(context) || context.nodeType) || !child.nodeType) { throw("prependChild:- bad Args!");}
-           context = context.nodeType ? [context] : context;
+           context = isList(context) ?  context : [context];
            forEach (function( element, index ){
+        Techie.error("prependChild", "html", child.nodeType && element.nodeType);
             element.insertBefore(child, element.firstChild);
            }, context);
            return this;
