@@ -4,7 +4,7 @@ CD %LOCALDIR%
 xcopy C:\Web\WEBFILES\config %LOCALDIR%\.git\config /G /Y
 
 git init
-cmdkey /delete:git:https//github.com
+rem cmdkey /delete:git:https//github.com
 rem git config --system --unset credential.helper
 git config credential.helper 'store'
 git config --local user.name PTNigeria
