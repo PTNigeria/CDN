@@ -2,7 +2,10 @@
 (function(global, factor, factory) {
 
     if (typeof module === "object" && typeof module.exports === "object") {
-        // For CommonJS and CommonJS-like environments where a proper window is present, execute the factory and get Techie.For environments that do not have a `window` with a `document`(such as Node.js), expose a factory as module.exports.This accentuates the need for the creation of a real `window`.e.g. var jQuery = require("jquery")(window);See ticket #14549 for more info.
+        /* For CommonJS and CommonJS-like environments where a proper window is present, execute the factory and get Techie.For environments that do not have a
+`window` with a `document`(such as Node.js), expose a factory as module.exports.This accentuates the need for the creation of a real `window`.e.g. 
+var jQuery = require("jquery")(window);See ticket #14549 for more info.
+*/
         module.exports = global.document ?
             factory(global, true) : function(w) {
 
@@ -29,7 +32,17 @@
         a("This is Techie. Take your time, explore the place;! Techie is a big place"); //////////////
 
 window.a = b;
-        factory(global);
+/*
+Make the factor determination here. This empowers you to make clear choices based on what the vendor provides. Determine the browser version 
+and its support level here, load any necessary dependencies, get good and call the factory if you are fine. Else, throw, a good informative error.
+	BREAKDOWN:- 
+	1.	Release an interface "vendor", a calculative function that returns an object with enough information about the vendor Like:-
+	   a. vendor, b. version, c. support = {}, i. support.html5, ii. support.JS5, iii. support.JS6, sopport.JS7, 
+	   d. client --- calculative function that return an object with: 
+	   i. support(infos about the computer i.e 32 or 64 based or higher, OS, OS version, CPU and GPU power),
+	   ii. Language and Locale, country, state, etc
+*/
+        factory.call(global, factor );
     } // Pass this if window is not defined yet
 }(typeof window !== "undefined" ? window : this, function factor(global) {
 
@@ -75,7 +88,7 @@ window.a = b;
         join = array.join;
 
     function EventTarget() {}
-    EventTarget.prototype = {
+   var Events = EventTarget.prototype = {
         constructor: EventTarget,
         addListener: function(type, listener) { // create an array if it doesn't exist 
             if (!this.hasOwnProperty("_listeners")) {
@@ -113,10 +126,7 @@ window.a = b;
                     }
                 }
             }
-        }
-    };
-
-    var Events = {
+        },
         EventTarget: EventTarget,
         target: new EventTarget(),
         getClipboardText: function(event) {
@@ -167,7 +177,7 @@ window.a = b;
                 }
             }
         },
-        on: function(event, fn, object) {//window.on("scroll", function(){})
+        on: function(event, fn, object) {//window.on("scroll", function(){});;;
         object = object || this;
             object = isList(object) ? object : [object];
             forEach(function( object, index) {
@@ -176,6 +186,56 @@ window.a = b;
             return this;
         },
 
+
+ mouseEnter: function(fn, obj){
+obj = obj || this;
+if (Techie.isList(obj)) {obj = obj[0];}
+Techie.error("@mouseEnter", "No HTMLElement provided.", Techie.isHTML(obj));
+
+a(type(fn, "function"))
+
+Techie.error("mouseEnter", fn+" is not a valid Techie function", type(fn, "function"))
+Techie.on.call(obj, "mouseenter", fn.bind(obj));
+return this;
+},
+
+mouseLeave: function(fn, obj){
+obj = obj || this;
+if (Techie.isList(obj)) {obj = obj[0];}
+Techie.error("@mouseLeave", "No HTMLElement provided.", Techie.isHTML(obj));
+Techie.on.call(obj, "mouseleave", fn.bind(obj));
+return this;
+},
+
+
+hover: function(fnIn, fnOut, e) {
+	e = e || this; 
+	if (!Techie.isList(e)) {e = Techie(e);}
+	forEach(function (e){
+Techie.error("@hover", "No HTMLElement provided.", Techie.isHTML(e));
+	Techie.error("hover", fnIn + " is not a valid function", plain.functions(fnIn));
+this.mouseEnter.bind(this, fnIn);
+this.mouseLeave.bind(this, fnOut||function(){});
+	}, e);
+	
+return this;
+},
+
+        click: function ( fn, object ) {
+            forEach.call( isList(object) ? object : [object], function (element){
+                var event = this.getEvent( "click" );
+                if (element.addEventListener) {
+
+                } else if (element.attachEvent) {
+
+                } else {
+                    element["on"+"click"] = fn.call(element, event, element );
+                }
+            }, null, this );
+
+        },
+
+       
         addHandler: function(element, type, handler) {
             if (element.addEventListener) {
                 element.addEventListener(type, handler, false);
@@ -243,7 +303,7 @@ window.a = b;
     function populate(receiver, supplier) {
         //USE: populate(arrayOne, arrayTwo); simply extends arrayOne
         // USE: populate(Techie, [['fire', 'water', 'saver'], [fire, water, saver]])
-        //USER2: populate(sapi, [['fire,water, saver'], [fire, water, saver]])
+        //USER2 : populate(sapi, [['fire,water, saver'], [fire, water, saver]])
         if (isList(receiver) && isList(supplier)) {
             if (receiver.length != supplier.length) {
                 throw new Error("Both receiver and supplier must be equal");
@@ -398,12 +458,7 @@ if ( combine (12, 2) == (function ( a, b ) { return a * b; }(12, 2)) ) { base = 
 
 
     function isHTML(s) {
-        if (isNode(s)) {
-            if (s.nodeType == 1) {
-                return true;
-            }
-        }
-        return false;
+        return isNode(s) ? ( (s.nodeType == 1) ? true : false) : false;
     }
 
 
@@ -411,6 +466,14 @@ if ( combine (12, 2) == (function ( a, b ) { return a * b; }(12, 2)) ) { base = 
     //Type considerations
 
     var plain = {
+        type: type,
+       isEmptyObject: function isEmptyObject ( obj ) {
+        var name;
+        for ( name in obj ) {
+            return false;
+        }
+        return true;
+    },
         booleans: function(value) {
             return Object.prototype.toString.call(value) == "[object Boolean]";
         },
@@ -448,7 +511,7 @@ if ( combine (12, 2) == (function ( a, b ) { return a * b; }(12, 2)) ) { base = 
 
 
     function Techie(selector, context) {
-        //Welcome To Techie JavaScript API version 1.0.0; The Techie constructor lives inside Techie
+        //Welcome To Techie JavaScript API version 1.0.0; Techie constructor lives inside Techie
         return this instanceof Techie ? Techie(selector, context) : new Techie.sapi.Techie(selector, context);
     }
 
@@ -456,140 +519,95 @@ if ( combine (12, 2) == (function ( a, b ) { return a * b; }(12, 2)) ) { base = 
     Techie.sapi = Techie.prototype = {
         //Techie home 
         constructor: Techie,
-        Techie: function(selector, context) {
-            if (Object.prototype.toString.call(selector) == '[object String]') {
-                var saved = selector;
-                selector = false;
-            }
-            if (!selector && typeof saved !== 'string') {
-                return this;
-            }
-            //if(typeof selector === 'Object' && !('length' in selector) && !('nodeType' in selector)){a(selector)}
-            if (typeof plain === 'object' && (plain.objects(selector) || plain.arrays(selector))) { //pure objects || arrays
-                DefineProperties(this, selector, true);
-              DefineProperties(this, {length: selector.length}, false)
-                return this;
-            }
-            if (typeof plain === 'object' && plain.functions(selector)) {
-                Techie.Ready = selector;
-                return this;
-            }
-            context = (typeof context === 'object' && context.querySelectorAll) ? context : document;
-            var nodes = [];
-            if (isList(selector)) {
-                nodes = selector.length > 1 ? slice.call(selector) : [selector];
-                var sel = selector;
-                selector = null;
-            }
-            if (typeof saved === 'string') {
-                if (saved[0] === '<' && saved[saved.length - 1] === ">") {
+        
+
+
+     
+Techie: function(selector, context) {
+var funcs, string, object, others, index = 0, str = toString.call(selector), prevObject, nextObject, nodes = [], length;
+ if (context == null) {arguments.length = 1;}
+ if (!selector) {
+return this;
+ } else if (str == "[object Function]") { 
+Techie.Ready ( selector );
+ return this;
+} else if (str == "[object Array]" || str == "[object Object]") {
+    this[0] = selector; length = 1;
+    if (context) { this[1] = context; length = 2; } DefineProperty( this, "length", length, false ); return this;
+} else if (str == "[object String]") {
+    selector.trim(); context = (typeof context === 'object' && context.querySelectorAll) ? context : document;
+    if (element.matchesSelector( context, "."+selector)) {selector = "."+selector;}
+    if (element.matchesSelector(context, "#"+selector)) {selector = "#"+selector;}
+    if (selector [0] === '<' && selector[selector.length - 1] === ">" && selector.length >= 3 ) {
                     nodes = [createFrag(saved, context)];
-                    var sel = saved;
-                    saved = null;
-                } else {
-                    nodes = slice.call(context.querySelectorAll(saved));
-if (!nodes || nodes[0] == null) {
-isHTML(sapi.getElementsByClassName(saved)[0]) ?   str = "." + saved :
-isHTML(sapi.getElementById(saved)) ? str = "#" + saved : str = null;
-if (str != null) {
-    nodes = slice.call(sapi.querySelectorAll(str));
-}} var sel = saved; saved = null;
-                }
-            }
-            if (typeof selector !== "undefined" && selector) {
-                //if at this point, selector is not saved and emptied or returned, deal with it
-                nodes = [selector];
-                var sel = selector;
-                selector = null;
-            }
-            var prevObject, nextObject;
-            if (nodes.length) {
-                forEach(function(e, i, o) {
-                    this[i] = e;
-                    try {
-prevObject = e.previousElementSibling;
-nextObject = Techie.element.next( e );
-DefineProperties(this[i], element, false);
-DefineAccessors(this[i], "CSS", function gettr(){return  function(object, option ){
-        option = ( object && (object.nodeType || isCollection(object))) ? (option || "") : object; 
-        object = option == object ? this : object;return styles(object, option); };}, styles);
-DefineAccessors(this[i], "css", function gettr(){return  function(object, option, more){
+ } else if (element.matchesSelector(context, selector)) {
+                    nodes = slice.call(context.querySelectorAll(selector));
+} } else if ( str != "[object String]" && typeof selector.length === "number" && selector.length % 1 == 0 ) {
+nodes = slice.call(selector);
+} else {
+    others = slice.call(arguments); length = others.length; DefineProperty( this, "length", length, false );
+    while ( length ) { this[ index ] = others[ index ]; length--; index++; } index = 0; return this;
+}
+if (!(nodes[0] && nodes[0].nodeType)) { return this;}
+
+forEach(function( node, index, object ) { this[index] = node;
+    prevObject = element.previous(node);
+nextObject = element.next( node );
+DefineProperties(this[index], element, false);
+DefineAccessors(this[index], "css", function gettr(){return  function(object, option, more){
 if (arguments.length == 3) { return styles(object, option, more)}
     else if ((arguments.length == 2)) { return styles.call(this, object, option);}
         else if (arguments.length == 1) {
             return styles(this, object);} else{ return styles(this);}
+ };}, styles);
+ }, nodes, this);
+DefineProperties(this, {
+ selector: selector, prevObject: prevObject,nextObject: nextObject,context: context,nodes: nodes,length: nodes.length
+}, false);
 
-/*option = ( object && (object.nodeType || isCollection(object))) ? (option || "") : object; 
-a(option)
-        object = option == object ? this : object;return styles(object, option);*/ };}, styles);
-DefineAccessors(this[i], "styles", function gettr(){return  function(object, option ){
-        option = ( object && (object.nodeType || isCollection(object))) ? (option || "") : object; 
-        object = option == object ? this : object;
-        return styles(object, option); };}, styles);
-                    } catch (e) {console.warn(e);}
-                }, nodes, this);
-                DefineProperties(this, { 
-                    selector: sel,
-                    prevObject: prevObject,
-                    nextObject: nextObject,
-                    context: context,
-                    nodes: nodes,
-                    length: nodes.length
-                }, false);
-
-            }
         },
 
 
-
-
-
-
-
-status: function() {
- return sapi.readyState;
-},
-state: function (){
-return sapi.readyState;
-},
-readyState: function () {
- return sapi.readyState;
-},
+status: loadStatus(),
+state:  sapi.readyState,
+readyState: sapi.readyState,
 version: function () {
  return "1.0.0";
 },
 
-isReady: function () {
- return (sapi.readyState === 'loaded' || sapi.readyState === 'complete');
-},
+isReady: isLoaded,
   isready: false,
 
         onReady: function(func) {
             this.isready = true;
-            var head = sapi.head,
-            body = Techie.element.next(  head );
-            this.body = body;
-            this.head = head;
-            func.call(this,  body, head, sapi, Techie, SAPI, window);
+            this.body = document.body;
+            this.head = document.head;
+            func.call(this,  sapi.body, sapi.head, sapi, Techie, SAPI, window);
         },
         READY: function(func) {
-            var args = Array.prototype.slice.call(this, arguments);
+            var args = slice.call(this, arguments);
             var boundReadyFunc = func.bind(this, args.slice(1));
             if (this.isready) {
                 this.onReady.bind(this, func);
             } else {
-                document.addEventListener("DOMContentLoaded",
-                    this.onReady.bind(this, func), false);
+                Events.addHandler("DOMContentLoaded", this.onReady.bind(this, func), false);
             }
         },
 
+        hasObjects: function ( ref ) {
+          if (!ref) { ref = this;} return typeof ( ref === "object" && !!ref[0] );
+        },
+
+        hasNodes: function ( element ) {//(element || this) is a HTMLCollection or a nodeList
+    if (!element) {element = this;} return (typeof element === "object" && isNode( element[0] ));
+        },
 
 
 DomReadyState: false,isHTML: isHTML,isNode: isNode,isNodeList:isNodeList,dim: dim,
 Slice: Slice,slice: slice,isTag: isTag,plain: plain,isList: isList, bind: bind, Globalize: Globalize,
-isArrayLike: isArrayLike,DefineGlobals: DefineGlobals,Elements: Elements,
+isArrayLike: isArrayLike,DefineGlobals: DefineGlobals,Elements: Elements, 
 html: html,HTML: html,events: Events,Events: Events, mixin: mixin,baseuri: baseuri,
-BaseUri: BaseUri,
+BaseUri: BaseUri,items: items,
 SAPI: SAPI,pt: Techie,URL: URL,url: url,Url: url,uri: uri,URI: URI,
 BaseURI: BaseURI,upper: upper,lower: lower,page: true,Store: {},store: [],
 array: [],create: create,createFrag: createFrag,isElement: isHTML,
@@ -600,11 +618,11 @@ index: index,Index: Index,Children: Children,type: type,types: type, Reduce: Red
 ChildPos: ChildPos,tag: tag,blob: blob,element: element,show: show,
 objects: objects,arrays: arrays,functions: functions,strings: strings,
 numbers: numbers,booleans: booleans, removeClass: removeClass,
-invalidChars: invalidChars,extend: extend,isAbsent: isAbsent, 
+invalidChars: invalidChars,extend: extend,Extend: Extend,isAbsent: isAbsent, 
 isNumber: plain.numbers,isString: plain.strings,removeAttr:removeAttr,	
 isUndefined: type.undefineds,isPrimitive: type.primitives,isArray: plain.arrays,
 isObject: plain.objects,isFunction: plain.functions,Attr:Attr,attrHooks:attrHooks,
-isBoolean: plain.booleans,isPresent: isPresent,addClass:addClass,
+isBoolean: plain.booleans,isPresent: isPresent,addClass:addClass, hasClass: hasClass,
 computedStyle: computedStyle, getElementsByAttribute: getElementsByAttribute,
 
 
@@ -920,6 +938,24 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
             return store;
         },
 
+        error: function ( method, msg, evaluation ) {//error("CSS", "Bad grammer!")
+        var types = type.types; msg = msg.trim().toLowerCase();
+        if (types[msg]) {
+            msg = types[msg];
+        } else{
+            forEach.call(types, function(type){
+                if (type.match(msg)) {msg = types[type];}
+            });
+        }
+         msg = "No valid " + msg + " provided. Please consult the documentatation.";
+        plain.functions(evaluation) ? evaluation = !!(evaluation.call()) : 
+            evaluation = !!(evaluation);
+        if (!evaluation) {
+        	throw new Error( "=>Techie." + method + "<=Syntax error:: " + msg );
+        }
+     
+     },
+
         small: function(boo, msg) {
             var div = sapi.createElement('div'),
                 def1 = {
@@ -1004,7 +1040,7 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
 'border': '1px #fff','text-align': 'justify','box-sizing': 'border-box',
 'word-wrap': 'break-word','color': 'cyan','border-radius': '2%'
                 } );
-            });
+            }); return text;
         },
 
 
@@ -1165,13 +1201,13 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
                 }
             }
         },
-        ownProp: function(z, y) {
+        ownProp: function (z, y) {
             return z.hasOwnProperty(y);
         },
 
 
         //STRINGS STRINGS STRINGS
-        commaSeparated: function(x) {
+        commaSeparated: function (x) {
             var comSep = /(?=\w)+?[\w]+\s*\,\s*(\w+|\,)\s*$/;
             return comSep.test(x);
         },
@@ -1180,12 +1216,16 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
             return String(s).replace(/\s/g, '');
         },
 
-        StripCommas: function(str) {
-            //s.replace(/\s*(,|^|$)\s*why/g, "$1")
-            str = String(str).replace(/\,+(,|\s\,+|$)/g, ',');
-            str = str.replace(/^\,|\,$/g, '')
-            return str;
+        StripCommas: function( str ) {
+            return str.replace(/,/g, " ").trim().replace(/\s+/g, ", ");
+           
         },
+
+        mergeCommas: function ( string ) {//merge(", ,,Head, ,First, ,Java, ,Programming, , ,")
+// first strip extra commas, then strip commas at the ends of the resulting string
+string = string.replace(/,(\s*,+)+/g, ",").match(/[,\s]*(.*)[,\s]/)[1];
+return string.replace(/\s*,\s*/g, ", ");
+},
 
         ExtractLetters: function(s) {
             if (arguments.length) {
@@ -1266,14 +1306,13 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
             }
             this.Log(store, false);
         },
-        extendArray: function(x, y) {
-            //extend x with y
+        extendArray: function(x, y) { //extend x with y
             if (x.length && y.length) {
                 var i = x.length,
                     j;
                 for (j in y) {
                     i += 1;
-                    if (ownProp(y, j))
+                    if (y.hasOwnProperty(j))
                         x[i] = y[j];
                 }
                 x = pt.StripCommas(x);
@@ -1352,10 +1391,9 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
         },
 
         Reverse: function(arr) {
-            if (arr.constructor !== Array) {
+            if (toString.call(arr) != "[object Array]") {
                 var err = "Only arrays are supported.";
-                pt.min(err);
-                throw new TypeError(err);
+                pt.min(err);  throw new TypeError(err);
             }
             var i, Results = [];
             for (i = arr.length; i >= 0; --i) {
@@ -1373,7 +1411,7 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
         today: function() {
             var getNow = function() {
                 var DateToday = new Date();
-                return DateToday; //.toUTCString();
+                return DateToday;
             }();
             var dateDiv = document.createElement("h3");
             var dateDivPos = document.body.appendChild(dateDiv);
@@ -1392,7 +1430,7 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
             if (!obj) {
                 obj = {};
                 var i = 0;
-                while (i < 111) {
+                while (i < 1000) {
                     obj[i] = i;
                     i++;
                 }
@@ -1494,14 +1532,22 @@ top: '2em',color: 'cyan',padding: '1em',background: '#444',
 
 *////////////////////////////////////////////////////////////////////
 
+function loadStatus (  ) {
+    return sapi.readyState;
+}
 
+function isLoaded ( ) {
+    return ( sapi.readyState === 'complete' || sapi.readyState === 'interactive');
+}
+
+/*
 DefineAccessors(Techie.prototype, "Extend", function gttr(){
 	return function(receiver, supplier){
  mixin(receiver, supplier); return this;
 	};
 }, function sttr(supplier){
 	mixin(this, supplier); return this;
-})
+})*/
 
     DefineAccessors(Techie.prototype, "ready", function gttr() {
         /*///////////////////ready getter/////////////////////////*/
@@ -1510,12 +1556,11 @@ DefineAccessors(Techie.prototype, "Extend", function gttr(){
         var timer;
         return function(fn) {
             timer = setInterval(function() {
-                if (this.isReady) {
+                if (isLoaded() == true) {
                     clearInterval(timer);
-                    var head = sapi.head;
-                    var body = this.element.next(sapi.head);
-                    fn.call(this, body, head, sapi, Techie, SAPI, window);
-
+                    this.head = sapi.head;
+                    this.body = sapi.body
+                    fn.call(this, sapi.body, sapi.head, sapi, Techie, SAPI, window);
                     return this.status;
                 } 
             }.bind(this), 0);
@@ -1523,14 +1568,13 @@ DefineAccessors(Techie.prototype, "Extend", function gttr(){
     }, function sttr(fn) {
         /*///////////////////ready setter/////////////////////////*/
         a = b; ////////////////ready setter////////////////////
-
         var timer;
         timer = setInterval(function() {
-            if (this.isReady) {
+            if (this.isLoaded()) {
                 clearInterval(timer);
-                var head = sapi.head;
-                 var body = this.element.next(sapi.head);
-                    fn.call(this, body, head, sapi, Techie, SAPI,  window);
+                this.head = sapi.head;
+                    this.body = sapi.body
+                    fn.call(this, sapi.body, sapi.head, sapi, Techie, SAPI, window);
                 return this.status;
             }
         }.bind(this), 0);
@@ -1540,11 +1584,11 @@ DefineAccessors(Techie.prototype, "Extend", function gttr(){
     DefineAccessors(Techie.prototype, 'Ready', function gttr() {
             /*/////////////////////Ready getter///////////////////////*/
             a = b; /////////////////Ready getter///////////////////
-            return function(fn) {
-                if (this.isready) {
-                    this.onReady.bind(this, fn);
+            return function( fn ) {
+                if ( this.isready ) {
+                    this.onReady.call(this, fn);
                 } else {
-                    document.addEventListener("DOMContentLoaded", this.onReady.bind(this, fn), false);
+                    Events.addHandler( document, "DOMContentLoaded", this.onReady.bind(this, fn));
                 }
             };
         },
@@ -1552,14 +1596,14 @@ DefineAccessors(Techie.prototype, "Extend", function gttr(){
             /*/////////////////Ready setter///////////////////////////*/
             a = b; ///////////////Ready setter/////////////////////
             if (this.isready) {
-                this.onReady.bind(this, fn);
+                this.onReady.call(this, fn);
             } else {
-                document.addEventListener("DOMContentLoaded", this.onReady.bind(this, fn), false);
+                    Events.addHandler( document, "DOMContentLoaded", this.onReady.bind(this, fn));
             }
 
         });
 
-    DefineAccessors(Techie.prototype, "forEach", function gttr(fn, object, thisArg) {
+    DefineAccessors(Techie.prototype, "forEach",  function gttr(fn, object, thisArg) {
         return function(fn, object, thisArg) {
             if (toString.call(fn) != "[object Function]") {
                 return;
@@ -1653,6 +1697,8 @@ if (this_bool) {
             return styles(this, object).bind(this);
 }
    }; }, styles);
+
+
 
 
  function styles ( element, style, options )    {/*a(element)*/
@@ -1862,11 +1908,6 @@ element = (element == attr) ? this : element;//this reconaissance
 if (!isCollection(element)) {element = [element];}
 var count = 0; var   valueAdded;
 forEach(function( element, index){
-
-
-
-
-
 noNode = !isNode(element); 
 if (typeof attr !== "string" || noNode) {
     var el = "HTMLElement object: "+ element || null, at = ", attrString: " + attr||null;
@@ -1972,6 +2013,19 @@ element.className = stack.join(" ");
 return this;
 }
 
+function hasClass (element, name){
+name = name == null ?  (element == null || typeof element !== "string" ? "" : element) : name;
+element = name == element || element == null ? this : element;
+if (!isList(element)) { element = [element];} var length = element.length,  node; 
+while ( (node = element[--length])) { 
+if (!(node && node.nodeType)) { return null;}
+if (name == null || !name) {
+    if (node.className && node.className != null) { return true;}
+} else if (index(node.className.split(/\s+/), name) > -1) {return  true;} 
+}
+return false;
+}
+
 function addClass(context, classname){
 var throwError = "Techie.addClass:--pt.addClass(elemObj, 'className')";
 	classname = typeof classname !== "undefined" ? 
@@ -1982,10 +2036,13 @@ var throwError = "Techie.addClass:--pt.addClass(elemObj, 'className')";
 		throw new Error(throwError);
 	}
 	if(!isList(context)){context = [context]}
-	pt.forEach(function( context, index ){nType = context.nType;
+	pt.forEach(function(index, context){nType = context.nType;
 		if ( nType === 3 || nType === 8 || nType === 2 ) { return; }
-		if (context.className.length) {
-		context.className = context.className.concat("	" + classname);
+		if (context && context.className && context.className.length) {
+            var all = context.className.split(/\s+/), classname = classname.trim();
+            if (Techie.index(all, classname) == -1) {
+                    context.className = context.className.concat(" " + classname);
+            }
 		}else{context.className = classname;}
 
 	}, context)
@@ -1995,52 +2052,20 @@ return this;
 
 
 
-
     function Index(item, A) {
-        A = A || this;
-        var all = arguments,
-            store = {},
-            stk = [],
-            arr = pt.explode(all[0]),
-            items = (pt.isArrayLike(all[1])) ? pt.explode(all[1]) : String(slice.call(arguments, 1)).split(',');
-        pt.each(function(e, i, itms) {
-            pt.each(function(k, j, o) {
-                if (e == j) {
-                    store[e] = k;
-                    stk.push(k);
-                } else if (e == k) {
-                    store[e] = j;
-                    stk.push(j);
-                }
-            }, arr);
-            if (!(e in store)) {
-                store[e] = -1;
-                stk.push(-1);
-            }
-        }, items);
-        if (stk.length == 1) {
-            return stk[0];
-        }
+        A = A || this;var all = arguments,   store = {},  stk = [], arr = pt.explode(all[0]),
+            items = (isArrayLike(all[1])) ? explode(all[1]) : String(slice.call(arguments, 1)).split(',');
+        forEach(function(e, i, itms) {
+ forEach(function(k, j, o) { if (e == j) {store[e] = k;stk.push(k); } else if (e == k) {store[e] = j;stk.push(j); }}, arr);
+            if (!(e in store)) { store[e] = -1; stk.push(-1); }}, items); if (stk.length == 1) {return stk[0];}
         return stk;
     }
 
 
     function html(c) {
-        if (strings(c)) {
-            if (invalidChars(c)) {
-                c = sapi.querySelectorAll(c)[0];
-            } else {
-                c = create(c);
-            }
-        }
-        var d = isHTML(c);
-        if (!d) {
-            return false;
-        }
-        if (this instanceof html) {
-            return c
-        }
-        return true;
+        if (strings(c)) { if (invalidChars(c)) { c = sapi.querySelectorAll(c)[0]; } else {c = create(c); }}
+        var d = isHTML(c); if (!d) {return false;}
+        if (this instanceof html) {return c}return true;
     }
 
     function create(x) {
@@ -2051,7 +2076,7 @@ return this;
     function createFrag(blob, context) {
         var temp = sapi.createElement("p");
         temp.innerHTML = blob;
-        if (!temp.firstChild) { throw new Error("createFrag could not create the node from fragment. ");}
+        if (!temp.firstChild) { Techie.error("createFrag", "createFrag could not create the node from fragment.");}
         forEach(function( context, index ){
         if(typeof context === 'object' && context.nodeType){
             context.appendChild(temp.firstChild);
@@ -2077,16 +2102,14 @@ return this;
 
 
     function isCollection(array) {
-        return array && array.length && isHTML(array[0]);
+        return array && array.length && !array.tagName && isHTML(array[0]);
     }
 
 
     function isList(array) {
         if (!arguments.length) { array = this;}
-        if( array && Object.prototype.toString.call(array) != "[object String]"){
-      if (array.length && typeof array.length === 'number' && array.hasOwnProperty('0')) {
+        if( toString.call(array) != "[object String]" &&  typeof array.length === 'number' && array.length % 1 == 0){
             return true;
-        }
         }
         return false;
     }
@@ -2188,18 +2211,13 @@ position: "fixed", width: "100%", height: "100%", float: "left",top: "0px", left
     }
 
 
-    function isNodeList(N) {
-        try {
-            if (Object.prototype.toString.call(N) == '[object String]') {
-                return false
-            }
-            var len = (N.length === 0),
-                e = ((N[0] instanceof HTMLElement) || (N[0] instanceof NodeList) || (N[0] instanceof HTMLCollection)),
-                isNL = ((N instanceof HTMLCollection) || (N instanceof NodeList));
-            return (isNL && (e || e));
-        } catch (t) {
-            return false;
-        }
+    function isNodeList( object ) {
+    if (!arguments.length) { object = this;}
+    var string = toString.call(object), ret = true;
+    if (string == "[object HTMLCollection]" || string == "[object NodeList]") { return true;}
+if ( isCollection( object ) ) { return true; } if (!isList(object)) {return false;}
+    forEach.call(object, function(node){ if ( !isNode(node) ) { ret = false; }});
+return ret;
     }
 
 
@@ -2218,31 +2236,19 @@ position: "fixed", width: "100%", height: "100%", float: "left",top: "0px", left
         }
         return false;
     }
+function isNode( object ) {  /*HTML nodes are objects and no other data type;
+        Use isTag(string) instead; string will be created and checked against  isNode(object);*/
+object = object || this; 
+/*var unknowns = ['UNKNOWN','UNDEFINED','NULL','NAN','OBJECT OBJECT'],
+         ret = true, string = toString.call(object).replace(/\[\]/g, "").toUpperCase(),  i = 0;
+            while(i < unknowns.length){ if (index(string, unknowns[i]) != -1) { ret = false;} 
+            i++; 
+        } if (ret == false) { return false;}*/
+if ( object == document || object instanceof HTMLElement ) { return true;}
 
-    function isNode(object) { /*HTML nodes are objects and no other data type;
-        Use isTag(string) instead; string will be created and checked against 
-        isNode(object);*/
-        var unknowns, i; if (typeof object !== 'object') { return false;}
-        return checkHtml(object);
-
-        function ChkNm(name) {
-         if (isNodeList(name)) { name = name[0]; }
-try { name = upper.call(name);} catch (err) { return false;}
-            unknowns = ['UNKNOWN', 'UNDEFINED', 'NULL', 'NAN', 'OBJECT OBJECT'];
-    var returned = true; forEach(function() {
-                if (index(name, this) !== -1) {returned = false;} }, unknowns);
-            return returned;
-        }
-        function checkHtml(obj) {
-            if (ChkNm(obj)) {
-                if (isNodeList(obj)) {
-                    obj = obj[0];
-                }
-                return obj.nodeType ? true : false;
-            }
+if (object.ownerDocument == document) {return true}
             return false;
         }
-    }
 
 
 
@@ -2254,7 +2260,7 @@ try { name = upper.call(name);} catch (err) { return false;}
         for (i in properties) {
             if (properties.hasOwnProperty(i)) {
                 value = properties[i];
-                Object.defineProperty(object, i, {
+                Object.defineProperty( object, i, {
                     value: value,
                     writable: true,
                     configurable: true,
@@ -2265,15 +2271,14 @@ try { name = upper.call(name);} catch (err) { return false;}
     }
 
 
-    function DefineProperty(
-        object, name, value, boo) {
-        boo = (boo == false) ? false : true;
-        Object.defineProperty(object, name, {
+    function DefineProperty( object, name, value, boo ) {
+        boo = ( boo == false ) ? false : true;
+        Object.defineProperty( object, name, {
             value: value,
             writable: true,
             configurable: true,
             enumerable: boo
-        })
+        } );
     }
 
 
@@ -2302,11 +2307,84 @@ try { name = upper.call(name);} catch (err) { return false;}
         return Object.prototype.hasOwnProperty.call(x, y);
     }
 
+
+
+function Extend() {
+    var src, copyIsArray, copy, name, options, clone,
+        target = arguments[ 0 ] || {},
+        i = 1,
+        length = arguments.length,
+        deep = false;
+
+    // Handle a deep copy situation
+    if ( typeof target === "boolean" ) {
+        deep = target;
+
+        // skip the boolean and the target
+        target = arguments[ i ] || {};
+        i++;
+    }
+
+    // Handle case when target is a string or something (possible in deep copy)
+    if ( typeof target !== "object" && !plain.functions( target ) ) {
+        target = {};
+    }
+
+    // extend jQuery itself if only one argument is passed
+    if ( i === length ) {
+        target = this;
+        i--;
+    }
+
+    for ( ; i < length; i++ ) {
+
+        // Only deal with non-null/undefined values
+        if ( ( options = arguments[ i ] ) != null ) {
+
+            // Extend the base object
+            for ( name in options ) {
+                src = target[ name ];
+                copy = options[ name ];
+
+                // Prevent never-ending loop
+                if ( target === copy ) {
+                    continue;
+                }
+// a(plain.objects(copy))
+                // Recurse if we're merging plain objects or arrays
+                if ( deep && copy && ( plain.objects( copy ) ||
+                    ( copyIsArray = plain.arrays( copy ) ) ) ) {
+
+                    if ( copyIsArray ) {
+                        copyIsArray = false;
+                        clone = src && plain.arrays( src ) ? src : [];
+
+                    } else {
+                        clone = src && plain.objects( src ) ? src : {};
+                    }
+
+                    // Never move original objects, clone them
+                    target[ name ] = Extend( deep, clone, copy );
+
+                // Don't bring in undefined values
+                } else if ( copy !== undefined ) {
+                    target[ name ] = copy;
+                }
+            }
+        }
+    }
+
+    // Return the modified object
+    return target;
+}
+
+
+
     function extend(receiver, supplier) {
         if (!arguments.length) {
             throw new Error("Techie: Usage: pt.extend(receiver, supplier) or pt.extend(object) //extend pt with yours")
         }
-        if (arguments.length < 2) {
+        if ( arguments.length < 2 ) {
             supplier = receiver;
             receiver = this;
         }
@@ -2333,7 +2411,7 @@ try { name = upper.call(name);} catch (err) { return false;}
         }
         var index, jot;
         Recievers = slice.call(Recievers);
-        Suppiers = slice.call(Suppiers);
+        Suppiers = slice.call(Suppiers); 
         Recievers.forEach(function(Reciever) {
             Suppiers.forEach(function(object) {
                 for (jot in object) {
@@ -2349,22 +2427,19 @@ try { name = upper.call(name);} catch (err) { return false;}
 
 
 
-    function type(x, y) {
-        if (type.isAtype(x)) {
-            if (y) {
-                if (Object.prototype.toString.call(y) == "[object String]") {
-                    var t = typeof x === y;
-                    return t;
-                } else {
-                    throw new TypeError("Techie: pt.type({}, 'object'); //true, type(28, 'number'); //true")
+    function type(datum, string) {
+        if (type.isAtype(datum)) {
+            if (string != null ) {
+                if (toString.call(string) == "[object String]") {
+                   return typeof datum === string;
+                } else { Techie.error("type", "pt.type({}, 'object'); //true, type(28, 'number'); //true");
                 }
             }
-            return typeof x;
+            return typeof(datum);
         }
-        return 'NIL';
+        return null;
     }
-    var
-        types = type.prototype = {
+    var types = type.prototype = {
             numbers: function(x) {
                 return toString.call(x) == "[object Number]";
             },
@@ -2393,17 +2468,13 @@ try { name = upper.call(name);} catch (err) { return false;}
                 var primitives = ["[object String]", "[object Number]", "[object Boolean]", "[object Nan]",
                         "[object Null]", "[object Undefined]"
                     ],
-                    isPrimitive = false;
-                forEach(function( eachPrimitive, index,  primitives) {
-                    if (toString.call(datum) == eachPrimitive) {
-                        isPrimitive = true;
-                    }
-                }, primitives);
+                 isPrimitive = false, counter = 0, string = toString.call(datum);
+                 while ((primitive = primitives[counter++])) {if (string == primitive) { isPrimitive = true;}}
                 return isPrimitive;
             },
 
-            isAtype: function(x) {
-                switch (toString.call(x)) {
+            isAtype: function(string) {
+                switch (toString.call(string)) {
                     case '[object String]':
                     case '[object Number]':
                     case '[object Boolean]':
@@ -2430,10 +2501,18 @@ try { name = upper.call(name);} catch (err) { return false;}
                 }
                 return true;
             },
-            types: ["[object Undefined]", "[object Nan]", "[object Null]", "[object Boolean]",
-                "[object String]", "[object Number]", "[object Array]", "[object Function]", "[object Object]"
-            ]
+            types: {
+                "undefined": "[object Undefined]",   "nan": "[object Nan]",
+                "null": "[object Null]",             "boolean": "[object Boolean]",
+                "string": "[object String]",         "number": "[object Number]",
+                "array": "[object Array]",           "function": "[object Function]",
+                "object": "[object Object]",         "html": "[object HTMLElement]",
+                "collection": "[object HTMLCollection]", "nodeList": "[object HTMLNodeList]",
+                "date": "[object Date]",  "regExp": "[object RegExp]", 
+                techie: "[object Techie]"
+                }
         };
+    mixin(Techie, types);
     mixin(type, types);
 
 
@@ -2489,14 +2568,15 @@ try { name = upper.call(name);} catch (err) { return false;}
     var Elements = {};
 
     Elements.events = Events;
-
     Elements.props = {
+        Elements: Elements,
+        element: element,
         isAbsent: function(e) {
             return !(isPresent(e));
         },
-        get status() {
-            return sapi.readyState;
-        },
+        
+
+     status: loadStatus(),
         tabForward: function(event) {
             event = EventUtil.getEvent(event);
             var target = EventUtil.getTarget(event);
@@ -2536,10 +2616,10 @@ try { name = upper.call(name);} catch (err) { return false;}
             return result;
         },
         serialize: function(form) {
-            var parts = [],
-                field = null,
-                i,
-                len, j, optLen, option, optValue;
+            form = form || this;
+            Techie.error("serialize", "html", isHTML(form) || isCollection(form));
+             if (isCollection(form) && !form.tagName) { form = form[0];}
+        var parts = [],field = null,i,len, j, optLen, option, optValue;
             for (i = 0, len = form.elements.length; i < len; i++) {
                 field = form.elements[i];
                 switch (field.type) {
@@ -2585,6 +2665,10 @@ try { name = upper.call(name);} catch (err) { return false;}
             }
             return parts.join("&");
         },
+
+        hasClass: function ( element, className) {
+            return hasClass.call(this,element, className)
+        },
         
         addClass: function(element, className) {
             addClass(element, className);
@@ -2615,6 +2699,30 @@ try { name = upper.call(name);} catch (err) { return false;}
             return this;
         },
 
+        forEach: function(fn, element, Thisarg) {
+            element = Children(element || this);
+            for (var index in element){
+                if (element[index].nodeType && fn.call) {
+                     fn.call(Thisarg || element[index], element[index], index, element);
+
+                } 
+            }
+            return this;
+        },
+
+        each: function(fn, element, Thisarg) {
+            element = Children(element || this);
+            for (var index in element){
+                if (element[index].nodeType && fn.call) {
+                     fn.call(Thisarg || element[index], element[index], index, element);
+
+                } 
+            }
+            return this;
+        },
+
+
+
         setText: function(text, e) {
             e = e || this;
             if (typeof e.textContent == "string") {
@@ -2630,14 +2738,12 @@ try { name = upper.call(name);} catch (err) { return false;}
         },
         nthChild: nthChild,
 
-        set text(str) {
+        text: function(str) {
             this.setText(str, this);
         },
-        get text(){
-            return function (element){
+        text: function (element){
             element = element || this;
             return (typeof element.textContent === "string") ? element.textContent : element.innerText;
-        };
         },
         addChild: function(element, child) {//create last child
             if (!child) {
@@ -2648,9 +2754,19 @@ try { name = upper.call(name);} catch (err) { return false;}
             element.appendChild(child);
             return this;
         },
-        unwrap: function ( e ) { // used to unwrap e or this i.e, change its parent  to the parent of its parent
 
-        },
+         unwrap: function( wrapper )  {  // used to unwrap e or this i.e, change its parent  to the parent of its parent
+// place childNodes in document fragment
+wrapper = wrapper || this;   var docFrag = document.createDocumentFragment();
+ if (!isList(wrapper)) { wrapper = [wrapper];} forEach (function (wrapper) {
+while ( wrapper.firstChild )  {
+    var child = wrapper.removeChild( wrapper.firstChild ); docFrag.appendChild(child);
+    }  // replace wrapper with document fragment
+    wrapper.parentNode.replaceChild(docFrag, wrapper);
+    }, wrapper );
+return this;
+},
+
         ReplaceWith: function ( e, newObj) { // this.replaceWith(obj), replaceWith(e, newObj)
             if (arguments.length < 2) { newObj = e; e = this;}
             
@@ -2726,6 +2842,9 @@ return  this.stack;
         getAttr: function(element, attribute) {
             return Attr(element, attribute)
         },
+        parent: function ( e ) {
+
+        },
         getParent: function(element) {
             this.paren = this.paren ? this.paren : element.parentNode; if (!(this.paren && this.paren.nodeType)) {return;}
             if ( this.paren.nodeType != 1 ){ this.paren = this.paren.previousSibling; this.getParent(this.paren);} 
@@ -2744,14 +2863,16 @@ return  this.stack;
         },
         next: function(e){
             this.node = typeof this.node === "undefined" ? e.nextSibling : this.node;
-            if (this.node.nodeType != 1) { this.node = this.node.nextSibling; this.next(this.node);}
+            if (this.node && this.node.nodeType && this.node.nodeType != 1) {
+                this.node = this.node.nextSibling; this.next(this.node);
+            }
                return this.node;
         },
         previous: function (  e ) {
-        this.previousSib = (typeof  this.previousSib !== "undefined") ? this.previousSib : e.previousSibling;  
-        if (!(this.previousSib && this.previousSib.nodeType)) {return;}
-            if ( this.previousSib.nodeType != 1 ) {  this.previousSib = this.previousSib.previousSibling;  
-                this.previous(this.previousSib); } 
+            this.previousSib = (typeof  this.previousSib !== "undefined") ? this.previousSib : e.previousSibling;  
+            if (this.previousSib && this.previousSib.nodeType && this.previousSib.nodeType != 1 ) {  
+                this.previousSib = this.previousSib.previousSibling;  this.previous(this.previousSib); 
+            } 
           return this.previousSib;
         },
         getNextSibling: function(element) { 
@@ -2839,7 +2960,7 @@ return  this.stack;
          }, context);
             return this;
         },
-        prepend: function(element, previousSibling) { //used to create previousSibling
+        prepend: function(element, previousSibling, michael) { //used to create previousSibling
              if (!element) {return;}
            previousSibling = (element.nodeType || isCollection(element)) ? previousSibling : element;
            var context = previousSibling == element ? this : element;
@@ -2864,9 +2985,9 @@ return  this.stack;
         },
         prependChild: function(element, child) { //used to create 1stChild
              if (!element) {return;}
-           child = (element.nodeType || isCollection(element)) ? child : element;
+            if (!child) { child = element; element = this;}
            var context = child == element ? this : element;
-           if ( !child.nodeType && !(context.nodeType || isCollection(context)) ) {return;}
+           if (!(isCollection(context) || context.nodeType) || !child.nodeType) { throw("prependChild:- bad Args!");}
            context = context.nodeType ? [context] : context;
            forEach (function( element, index ){
             element.insertBefore(child, element.firstChild);
@@ -2892,17 +3013,21 @@ return false;
 }
 },
 
-matchesSelector: function (element, selector){
-if (element.matchesSelector){
+matchesSelector: function (element, selector){ //clunky workaround. serious test required to standardize.
+  if (element == null ) {
+return false;
+  } /*else if ( element && element.matches) {
+    return element.matches(selector);
+} else if ( element && element.matchesSelector){ 
 return element.matchesSelector(selector);
-} else if (element.msMatchesSelector){
+} else if ( element && element.msMatchesSelector){ 
 return element.msMatchesSelector(selector);
-} else if (element.mozMatchesSelector){
+} else if ( element && element.mozMatchesSelector){ 
 return element.mozMatchesSelector(selector);
-} else if (element.webkitMatchesSelector){
+} else if ( element && element.webkitMatchesSelector){ 
 return element.webkitMatchesSelector(selector);
-} else {
-throw new Error("Not supported.");
+} */else { 
+try { return element.querySelector(selector) != null; }catch (err) {return false;}
 }
 },
         appendchild: function(element, child) { //Used to create last child
@@ -2948,6 +3073,7 @@ throw new Error("Not supported.");
            if (context.nodeType != 1) {return;}
             return slice.call(context.getElementsByTagName(tagName));
         },
+        items: items,
         props: Element.props,
         show: show,
         mixin: mixin,
@@ -3102,6 +3228,35 @@ function bind (This) {
         }
     }
 
+function items ( a, b ) { //item(2, arr); $("p").items(), items(arr), body.items(0)
+var l = isList, al = l(a) || !!(a&&a.nodeType),bl =  l(b) || !!(b&&b.nodeType),
+an = typeof a === "number",bn = typeof b === "number",thisl = l(this) || !!this.nodeType,
+index = ( !a || al ) ? ( bn ? b : null) : ( an ? a : null ), 
+arr = al ? a : bl ? b : thisl ? this : null;
+if (!arr || ( a && b && (arr == this)) ) { throw(" Techie.items:- bag args. ");}
+var i = 0, count, stk = [], cont = false;
+if (arr.length && arr.length < 2) { arr = arr[0];}
+if (l(arr)) { //array supplied; work up array items
+return function (array, index) {
+     for ( ; i < array.length; i++) { if (array[i].nodeType && !array[i].items) {array[i].items = items;}
+    if ( typeof index === "number" && index % 1 == 0 ) { if ( i == index ) count = array[i]; break;}    
+    stk.push(array[index]);
+    }
+    return count ? count : stk;
+}( arr, index );
+} else { //html object supplied; work up the children items
+var nodes = arr.childNodes, elements = [];
+if ( typeof index === "number" && index % 1 == 0 ) {  
+for (i = 0; i < nodes.length; i++) {if (nodes[i].nodeType == 1) {elements.push(nodes[i]);}}
+for ( i = 0; i < elements.length; i++ ) {if (i == index ) { count = elements[i]; break;}}
+    return count;
+} else {
+    for (i = 0; i < nodes.length; i++) {
+        if (nodes[i].nodeType != 1) {continue;}stk.push(nodes[i]);
+    } return stk;
+}
+}
+}
 
 
 
@@ -3116,7 +3271,48 @@ function bind (This) {
         return blb;
     }
 
-    function SAPI(selector, context, nodes) { //don,t bother, I,ll overwrite the variable nodes
+
+function SAPI( selector, context ) {
+    return this instanceof SAPI ? function ( selector, context, nodes ) {
+if ( !selector ) { return this;} 
+if (plain.functions(selector)) { return selector.call(this, context || this);}
+if (plain.objects(selector) || plain.arrays(selector)) { return this;}
+if (isNode(selector) || isCollection (selector)) {
+    nodes = selector.nodeType ? [selector] : selector; selector = null;
+} 
+if (selector && typeof selector !== "string") {
+    this[0] = Object(selector); this.length = 1; return this; selector = null;
+}
+if (selector && typeof selector === "string") {
+context = (typeof context === 'object' && context.querySelectorAll) ? context : document;
+
+    if (selector[0] === '<' && selector[selector.length - 1] === ">") {
+                nodes = [createFrag(selector, context)];
+            } else {
+                nodes = context.querySelectorAll(selector);
+            }
+}
+    if (nodes.length) {
+            forEach(function( node, index, all) {
+                this[index] = node;
+                this.length = index + 1;
+                try {
+                    DefineProperties(this[index], element, false);
+                } catch (e) {
+                    console.warn("Techie: No elements found.")
+                }
+            }, nodes, this );
+            // return nodes[1] ? nodes : nodes[0];
+        }
+
+
+    }.call( this, selector  ) : new SAPI (selector, context );
+}
+SAPI.prototype = Techie.prototype;
+
+
+
+    function SAPY(selector, context, nodes) { //don't bother, I,ll overwrite the variable nodes
         if (!selector) {
             return this;
         }
@@ -3127,7 +3323,7 @@ function bind (This) {
         }
         if (typeof selector === 'string') {
             if (selector[0] === '<' && selector[selector.length - 1] === ">") {
-                nodes = [createFrag(seolector, context)];
+                nodes = [createFrag(selector, context)];
             } else {
                 nodes = slice.call(context.querySelectorAll(selector));
             }
@@ -3192,7 +3388,7 @@ return count;
             var j, msg;
             for (i in o) {
                 j = o[i];
-                if (ownProp(o, i)) {
+                if(o.hasOwnProperty(i)){
                     if (type(j, rg)) {
                         stk.push(h4 + type(j) + ': ' + i);
                     }
@@ -3205,8 +3401,8 @@ return count;
 
     function isArrayLike(e) {
         if (Array.isArray(e)) {  return true; }
-        var r = Object.prototype.toString.call(e);
-        if (r === "[object HTMLCollection]" || r === "[object NodeList]") { return true;}
+        var string = Object.prototype.toString.call(e);
+        if (string === "[object HTMLCollection]" || string === "[object NodeList]") { return true;}
         if (typeof e !== "object" || !e.hasOwnProperty("length") || e.length < 0) {return false; }
         if (e.length === 0) { return true;} else if (e[0] && e[0].nodeType) {return true; }
         return false;
@@ -3219,9 +3415,8 @@ return count;
                 if ( action.call(This || object[index], object[index], index, object) === false ) {  break; }
             } } else {  for (index in object) {
                 if (object.hasOwnProperty( index )) {
-                    if (action.call( This || object[index], object[index], index,  object ) === false) {
-                        break;
-  }  } } }
+                    if (action.call( This || object[index], object[index], index,  object ) === false) { break; } 
+   } } }
         return object;
     }
 
@@ -3273,18 +3468,16 @@ return count;
 
 ////////////////////
     //The lifeblood
-    //Techie.addHandler
-    mixin(Techie.sapi, Techie.EventUtil);
-//sapi.Techie(o).each(fn);
-   
     //life of Techie constructor
     Techie.sapi.Techie.prototype = Techie.sapi;
-    // Techie.sapi.Techie.sapi = sapi;
      Techie.sapi.Techie.constructor = Techie;
+
+     //Techie("body").addHandler,  Techie("#form1").serialize
+ mixin(Techie.sapi, element);//since element has already been filled withe Events
     //Techie.each(fn,r,this)
     mixin(Techie, Techie.sapi);
-    //pt.pt.pt.each(f,r,this)
-    mixin( Techie.sapi.Techie, Techie.sapi );
+    //pt.pt.pt..pt.pt.addHandler( Techie("body"), "click", foo )
+    // mixin( Techie.sapi.Techie, Techie.sapi );
   /*  Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie.
     Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie.Techie*/
 /*sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi.sapi

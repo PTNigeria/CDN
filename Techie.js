@@ -8,7 +8,6 @@ var jQuery = require("jquery")(window);See ticket #14549 for more info.
 */
         module.exports = global.document ?
             factory(global, true) : function(w) {
-
                 if (!w.document) {
                     throw new Error("Techie requires a window with a document");
                 }
@@ -31,19 +30,16 @@ var jQuery = require("jquery")(window);See ticket #14549 for more info.
         a("Welcome To Techie Nigeria's JavaScript API version 1.00. All rights reserved."); //////////
         a("This is Techie. Take your time, explore the place;! Techie is a big place"); //////////////
 
-window.a = b;
+global.a = b;
+var machineInfo;
 // W ar going to explore the power of the factor right here. 
 // If we are fine, we go, if we aren't, we say stop!
-
-    if ( factor.call(global).noIssues ) { 
-        factory.call(global, factor ); 
-    } else {
-        throw new TypeError("Sorry, some issus were encountered while loading core files.");
-    }
-
-        // factory.call(global, factor );
+    if (   !( machineInfo = factor.call(global, global, factory ) ).noIssues   ) { 
+throw new TypeError("Sorry, some issus were encountered while loading core files.");
+   } 
+        factory.call(global, global, machineInfo, factor ); 
     } // Pass this if window is not defined yet
-}(typeof window !== "undefined" ? window : this, function factor(global) {
+}(typeof window !== "undefined" ? window : this, function factor(g, worker ) {
 /*
 Make the factor determination here. This empowers you to make clear choices based on what the vendor provides. 
 Determine the browser version and its support level here, load any necessary dependencies, get good and call 
@@ -56,7 +52,6 @@ the factory if you are fine. Else, throw, a good informative error.
        i. support(infos about the computer i.e 32 or 64 based or higher, OS, OS version, CPU and GPU power),
        ii. Language and Locale, country, state, etc
 */
-    
     /*
 
     NOTE: DO Techie(sapi).strinifyAll( window.navigator, true, null ); To help you see available properties
@@ -70,18 +65,55 @@ window.navigator.platform
 a(window.navigator.vibrate(window))
 
     */
-return (function (){
-return{
-    vendor: null,
-    version: null,
-    support: {
+     function addHandler(element, type, handler) {
+            if (element.addEventListener) {
+                element.addEventListener(type, handler, false);
+            } else if (element.attachEvent) {
+                element.attachEvent("on" + type, handler);
+            } else {
+                element["on" + type] = handler;
+            }
+        }
+  if (typeof g === "undefined" || g == null ) {
+    throw new TypeError("NO GLOBAL OBJECT INTERFACE FOUND IN THE ENVIRONMENT.");
+  }
+    return   (function (global){
+return{ //
+    vendor: { // browser infos
+        online: function online (){
+            return global.navigator && global.navigator.online;
+        }
+    }, //browser
+    version: null, //version
+    support: { //browser supports level determination
         html5: null,
         JS5: null,
         JS6: null,
         JS7: null
             },
-    client: function (  ) {
+     online: function(){
+                return global.navigator && global.navigator.online;
+            },
+            offline: function (){
+                return global.navigator && global.navigator.online;
+            },client: function (  ) { //Client machine information
         return {
+           online: function online(){
+            //Determine if machine is online
+             var ret = false;
+            addHandler(global, "online", function(e){
+                ret = true;
+            });
+            return ret;
+           },
+            offline: function online(){
+            //Determine if machine is online
+             var ret = false;
+            addHandler(global, "offline", function(e){
+                ret = true;
+            });
+            return ret;
+           },
             support: {
                 OS: null,
                 OSVERSION: null,
@@ -91,7 +123,7 @@ return{
                 GPU: null
             },
 
-            Locale: {
+            Locale: { //client machine location information
                 Language: null,
                 country: null,
                 state: null
@@ -101,10 +133,10 @@ return{
     issues: [], //buckt to hold all issues if any
     noIssues: true, //A crank to latch on when issues come up. Just crank it to false and verrthing stops!
 }
-}());
+}(g));
 
 
-}, function factory(root, sapi, pt, factor) { 
+}, function factory( window, machine, factor, sapi, pt ) {  a(true)
      var b = window.a;a = function foo() {
             return false
         } /////////////////////////////////////////////////////////
@@ -324,7 +356,7 @@ return this;
         },
 
        
-        addHandler: function(element, type, handler) {
+        addHandler: function addHandler(element, type, handler) {
             if (element.addEventListener) {
                 element.addEventListener(type, handler, false);
             } else if (element.attachEvent) {
@@ -333,7 +365,7 @@ return this;
                 element["on" + type] = handler;
             }
         },
-        removeHandler: function(element, type, handler) {
+        removeHandler: function removeHandler(element, type, handler) {
             if (element.removeEventListener) {
                 element.removeEventListener(type, handler, false);
             } else if (element.detachEvent) {
@@ -657,6 +689,7 @@ this.toString = toString = function toString( arg, nothing ){
 
  if ( selector && context == null ) {arguments.length = 1;}
  if (!selector) {
+    this.length = 0;
     return this;
  } else if (plain.functions(selector)) {
 Techie.ready( selector );
@@ -2792,15 +2825,28 @@ return bool;
 
     function string (x) {
         // Make explode handle argumants objects well. It is an array
-    var arr = explode(arguments), iota = 0, length = arr.length, str;
+    var arr = explode(arguments), iota = 0, length = arr.length,  str;
     for ( ; iota < arr.length; iota++ ) {
         str = arr[iota];
         this[iota] = str;
     }
-    this.length = length;
-    this.toString = function toString (){
-        return String(arr);
-    };
+     var that = this;
+
+DefineProperties( this, {
+    length: length,
+    toString: function toString (){
+        var D = "";
+        that.each(function(s, i, arr){ 
+          D =  D.concat(s);
+          if (i + 1 != arr.length) {
+            D += ", ";
+          }
+        });
+        return D;
+    }.bind(window)
+}, true );
+
+  
 }
 
         Techie.extend(string.prototype, {
@@ -2827,11 +2873,12 @@ return bool;
             return this;
             },
         push: function push(s) {
-            this.length++;
-            this.each(function( stri, index ){ 
-                if (!this[index]) {this[index] = s;}
-            }, this);
-            return this;
+            var i = 0, length = arguments.length;
+            for ( ; i < length; i++ ) {
+            this[this.length] =  arguments[i];
+            this.length++; 
+        }
+return this;
         },
 
         unshift: function unshift () {
@@ -2839,39 +2886,31 @@ return bool;
             return this;
         },
         shift: function shift(s) {
-            var stk = Techie.extend(true, {},  this), i = j = 0;
+            var stk = Techie.extend(true, {},  this), i, j, len = arguments.length; 
             this.length++;
-               this[ i ] =  s;
-                for ( ; j < stk.length; j++) {
-                    i += 1;
+            for ( i = 0; i < len; i++ ) {
+                this[ i ] =  arguments[ i ];
+            }               
+                for ( j = 0; j < stk.length; j++, i++ ) {
                   this[ i ] = stk[j];
                 }
+                this.length = i;
                 return this;
         },
 
 
         chop: function chop(s) {
-            this.length--;
-            var stk = Techie.extend(true, {},  this), i = j = 0;
-
-               stk[ 0 ] =  null;
-                for ( ; j < stk.length; j++) {
-                   
-                    if (!stk[j]) {
-                        continue;
-                    }
-                  this[ i ] = stk[j];
-                   i += 1;
+            var stk = Techie.extend(true, {},  this), i = 0,  j = 1, length = stk.length;
+                for ( ; j < length + 1; j++, i++ ) {
+                this [ j - 1 ] = stk[j];
                 }
+                delete this[ length - 1 ];
+                 this.length--;
                 return this;
         },
-        pop: function pop(s){
-            var stk = Techie.extend(true, {}, this), i = 0, length = stk.length;
-            for ( ; i < length; i++) {
-                delete this[i];
-                this[i] = stk[i];
-            }
-            delete this[i]; this.length = i; i = 0;
+        pop: function pop(){
+            delete this[ this.length - 1 ];
+            this.length--;
             return this;
         },
 
@@ -3525,15 +3564,73 @@ try { return element.querySelector(selector) != null; }catch (err) {return false
             return context.getElementById(id);
         },
 
-        classNames: function classNames(className, context) { a("CCCCCCCC")
-           var returnV; context = context ||
-            (isCollection(this) ? this : isHTML(this) ? [this] : document);
-            a(context)
-            forEach(function eachHandler(context){
-            Techie.error("html", isCollection(context), ln());
-            returnV = slice.call(context.getElementsByClassName(className));
+        ids: function ids(id, context){
+            var array = [];
+            walk(context || sapi, function (e){
+                if (e.id && e.id == id.trim()) {
+                    array.push(e);
+                }
             });
-            return returnV;
+            return Techie().push(array);
+        },
+
+        classes: function classes (clss, context){
+            var arr = [];
+            walk(context || sapi, function(e){
+                if (e.className && e.className.contains) {
+                    if ( e.className.contains(clss.trim()) ) {
+                    arr.push(e);
+                }
+                }
+                
+            });
+            return Techie().push(arr);
+        },
+
+        getClass: function getClass(context) { //all the class
+            // pt("body").getClass()//"case container book"
+            context = context || this; context = isCollection(context) ? 
+            context [0] : Techie.error("html", isHTML(context), ln()); 
+            return string(context.className);
+        },
+
+        classname: function classname (clas, context){ //gets only the first occurence
+             context =  context ? ( isCollection( context ) ?  context : [ context] ) :
+            (isCollection(this) ? this : isHTML(this) ? [this] : [document]);
+            var crank,
+            ret,arr = [], i, length = context.length, contains = this.containsString;
+             for ( i = 0; i < length; i++ ) {
+                walk(context [i], function(e){
+                if (e.className && e.className.contains) {
+                    if (e.className.contains(clas.trim())) {
+                         if (crank == null) {
+                            crank = e;
+                         }
+                    }
+                }
+            });
+             }
+             return crank;
+        },
+        containsString: function containsString(string){
+            return this.indexOf(string.trim() != -1);
+        },
+
+        classNames: function classNames(className, context) {
+            context = context ||
+            (isCollection(this) ? this : isHTML(this) ? [this] : [document]);
+            var arr = [], i, length = context.length,contains = this.containsString;
+            for ( i = 0; i < length; i++ ) {
+            walk(context[i], function(e){
+                if (e.className && e.className.contains) {
+                    if ( contains.call(e.className, className.trim()) ) {
+                        arr.push(e);
+                    }
+
+                }
+            });
+        }
+            return arr;
         },
         names: function names(name, context) {
            context = context || (this.nodeType ? this : document);
@@ -3901,7 +3998,9 @@ return count;
     }
 
     function walk(node, func) {
-        func(node);
+        if ((func(node) )) {
+            return node;
+        }
         node = node.firstChild;
         while (node) {
             walk(node, func);

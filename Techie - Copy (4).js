@@ -525,6 +525,17 @@ if ( combine (12, 2) == (function ( a, b ) { return a * b; }(12, 2)) ) { base = 
      
 Techie: function(selector, context) {
 var funcs, string, object, others, index = 0, str = toString.call(selector), prevObject, nextObject, nodes = [], length;
+this.techie = this.techieString = "[object Techie]";
+this.isTechie = true;
+this.toString = toString = function toString( arg, nothing ){
+    if (!arguments.length) {
+        return this.techieString;
+    }
+    var 
+    type = typeof this[0], data = types.data, datum = data[type], data = eval(datum);
+    return data && data.call ? (data(this[0])).toString(arguments[0]):
+    Object.prototype.toString.call(arguments[0]);
+}
  if (context == null) {arguments.length = 1;}
  if (!selector) {
 return this;
@@ -549,13 +560,7 @@ nodes = slice.call(selector);
     while ( length ) { this[ index ] = others[ index ]; length--; index++; } index = 0; return this;
 }
 if (!(nodes[0] && nodes[0].nodeType)) { return this;}
-this.techie = techieString = "[object Techie]";
-this.toString = function toString( args, nothing ){
-    if (!arguments.length) {
-        return this.techieString;
-    }
-    return Object.prototype.toString.call((nothing = []).concat[arguments]);
-}
+
 forEach(function( node, index, object ) { this[index] = node;
     prevObject = element.previous(node);
 nextObject = element.next( node );
@@ -571,8 +576,8 @@ DefineProperties(this, {
  selector: selector, prevObject: prevObject,nextObject: nextObject,context: context,nodes: nodes,length: nodes.length
 }, false);
 
+this.toString = toString;
         },
-
 
 status: loadStatus(),
 state:  sapi.readyState,
@@ -2516,7 +2521,13 @@ function Extend() {
                 "collection": "[object HTMLCollection]", "nodeList": "[object HTMLNodeList]",
                 "date": "[object Date]",  "regExp": "[object RegExp]", 
                 techie: "[object Techie]"
-                }
+                },
+            data: {
+                "undefined": "undefined", "null": "null", "nan": "NaN",
+                 "boolean": "Boolean", "string": "String", "number": "Number",
+                 "array": "Array", "object": "Object", "function": "Function",
+                 "date": "Date", "regexp": "RegExp", "techie": "Techie" 
+            }
         };
     mixin(Techie, types);
     mixin(type, types);

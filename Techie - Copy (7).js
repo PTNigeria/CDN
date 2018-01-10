@@ -389,14 +389,21 @@ function List ( array ) {
     
 }
 
-function explode ( anyNoOfArgs ) {
-    explode.stk = explode.stk || []; explode.array = explode.array || arguments;
-    Techie.forEach( function ( item ) {
+/*function explode ( anyNoOfArgs ) {a(this.counter);
+    if (this.crank == null) {
+        this.counter = 0; this.count = arguments.length;
+        this.crank = true; this.stk = []; this.array = arguments;
+    }
+          if (this.counter == this.count) {
+            return this.stk;
+        }
+            this.counter++;
+forEach( function ( item ) {
     if (Techie.isList( item )) {
-        explode.array = item; explode(explode.array); } else { explode.stk.push(item); }
-    }, explode.array, this );
-    return explode.stk;
-}
+        this.array = item; explode(this.array); } else { this.stk.push(item); }
+    }, this.array, this );
+    return this.stk;
+}*/
 
 
 function computeWin(){ 
@@ -410,7 +417,7 @@ function computeWin(){
     return this; 
     } 
 
-    function explod(array, n) {
+    function explode(array, n) {
         if (typeof array !== 'object' && typeof array !== 'array') {
             return null;
         }
@@ -525,6 +532,17 @@ if ( combine (12, 2) == (function ( a, b ) { return a * b; }(12, 2)) ) { base = 
      
 Techie: function(selector, context) {
 var funcs, string, object, others, index = 0, str = toString.call(selector), prevObject, nextObject, nodes = [], length;
+this.techie = this.techieString = "[object Techie]";
+this.isTechie = true;
+this.toString = toString = function toString( arg, nothing ){
+    if (!arguments.length) {
+        return this.techieString;
+    }
+    var 
+    type = typeof this[0], data = types.data, datum = data[type], data = eval(datum);
+    return data && data.call ? (data(this[0])).toString(arguments[0]):
+    Object.prototype.toString.call(arguments[0]);
+}
  if (context == null) {arguments.length = 1;}
  if (!selector) {
 return this;
@@ -549,13 +567,7 @@ nodes = slice.call(selector);
     while ( length ) { this[ index ] = others[ index ]; length--; index++; } index = 0; return this;
 }
 if (!(nodes[0] && nodes[0].nodeType)) { return this;}
-this.techie = techieString = "[object Techie]";
-this.toString = function toString( args, nothing ){
-    if (!arguments.length) {
-        return this.techieString;
-    }
-    return Object.prototype.toString.call((nothing = []).concat[arguments]);
-}
+
 forEach(function( node, index, object ) { this[index] = node;
     prevObject = element.previous(node);
 nextObject = element.next( node );
@@ -571,8 +583,8 @@ DefineProperties(this, {
  selector: selector, prevObject: prevObject,nextObject: nextObject,context: context,nodes: nodes,length: nodes.length
 }, false);
 
+this.toString = toString;
         },
-
 
 status: loadStatus(),
 state:  sapi.readyState,
@@ -608,28 +620,6 @@ isReady: isLoaded,
     if (!element) {element = this;} return (typeof element === "object" && isNode( element[0] ));
         },
 
-
-DomReadyState: false,isHTML: isHTML,isNode: isNode,isNodeList:isNodeList,dim: dim,
-Slice: Slice,slice: slice,isTag: isTag,plain: plain,isList: isList, bind: bind, Globalize: Globalize,
-isArrayLike: isArrayLike,DefineGlobals: DefineGlobals,Elements: Elements, 
-html: html,HTML: html,events: Events,Events: Events, mixin: mixin,baseuri: baseuri,
-BaseUri: BaseUri,items: items,
-SAPI: SAPI,pt: Techie,URL: URL,url: url,Url: url,uri: uri,URI: URI,
-BaseURI: BaseURI,upper: upper,lower: lower,page: true,Store: {},store: [],
-array: [],create: create,createFrag: createFrag,isElement: isHTML,
-Extender: Extender,isCollection: isCollection,populate: populate, List: List,
-Bool: type,walk_the_DOM: walk,walk: walk,DefineProperty: DefineProperty,
-nthChild: nthChild,DefineProperties: DefineProperties,explode: explode,DefineAccessors: DefineAccessors,
-index: index,Index: Index,Children: Children,type: type,types: type, Reduce: Reduce,
-ChildPos: ChildPos,tag: tag,blob: blob,element: element,show: show,
-objects: objects,arrays: arrays,functions: functions,strings: strings,
-numbers: numbers,booleans: booleans, removeClass: removeClass,
-invalidChars: invalidChars,extend: extend,Extend: Extend,isAbsent: isAbsent, 
-isNumber: plain.numbers,isString: plain.strings,removeAttr:removeAttr,	
-isUndefined: type.undefineds,isPrimitive: type.primitives,isArray: plain.arrays,
-isObject: plain.objects,isFunction: plain.functions,Attr:Attr,attrHooks:attrHooks,
-isBoolean: plain.booleans,isPresent: isPresent,addClass:addClass, hasClass: hasClass,
-computedStyle: computedStyle, getElementsByAttribute: getElementsByAttribute,
 
 
 
@@ -1522,12 +1512,6 @@ return string.replace(/\s*,\s*/g, ", ");
 
         //END OF SPECIAL CONSIDERATIONS
 
-
-
-
-
-
-
     };
 /************************TECHIE**************************************/
 
@@ -1537,6 +1521,105 @@ return string.replace(/\s*,\s*/g, ", ");
 
 
 *////////////////////////////////////////////////////////////////////
+
+Techie.extend = Techie.prototype.extend = function extend() {
+    /*
+    LEGEND
+copy: 
+    */
+    var src, copyIsArray, copy, name, options, clone,
+        target = arguments[ 0 ] || {},
+        i = 1,
+        length = arguments.length,
+        deep = false;
+
+    // Handle a deep copy situation
+    if ( typeof target === "boolean" ) {
+        deep = target;
+
+        // skip the boolean and the target
+        target = arguments[ i ] || {};
+        i++;
+    }
+
+    // Handle case when target is a string or something (possible in deep copy)
+    if ( typeof target !== "object" && !plain.functions( target ) ) {
+        target = {};
+    }
+
+    // extend jQuery itself if only one argument is passed
+    if ( i === length ) {
+        target = this;
+        i--;
+    }
+
+    for ( ; i < length; i++ ) {
+
+        // Only deal with non-null/undefined values
+        if ( ( options = arguments[ i ] ) != null ) {
+            // Extend the base object
+            for ( name in options ) {
+                src = target[ name ];
+                copy = options[ name ];
+
+                // Prevent never-ending loop
+                if ( target === copy ) {
+                    continue;
+                }
+// a(plain.objects(copy))
+                // Recurse if we're merging plain objects or arrays
+                if ( deep && copy && ( plain.objects( copy ) ||
+                    ( copyIsArray = plain.arrays( copy ) ) ) ) {
+
+                    if ( copyIsArray ) {
+                        copyIsArray = false;
+                        clone = src && plain.arrays( src ) ? src : [];
+
+                    } else {
+                        clone = src && plain.objects( src ) ? src : {};
+                    }
+
+                    // Never move original objects, clone them
+                    target[ name ] = extend( deep, clone, copy );//Job engine
+
+                // Don't bring in undefined values
+                } else if ( copy !== undefined ) {
+                    target[ name ] = copy;
+                }
+            }
+        }
+    }
+
+    // Return the modified object
+    return target;
+};
+
+Techie.prototype.extend({
+DomReadyState: false,isHTML: isHTML,isNode: isNode,isNodeList:isNodeList,dim: dim,
+Slice: Slice,slice: slice,isTag: isTag,plain: plain,isList: isList, bind: bind, Globalize: Globalize,
+isArrayLike: isArrayLike,DefineGlobals: DefineGlobals,Elements: Elements, 
+html: html,HTML: html,events: Events,Events: Events, mixin: mixin,baseuri: baseuri,
+BaseUri: BaseUri,items: items,
+SAPI: SAPI,pt: Techie,URL: URL,url: url,Url: url,uri: uri,URI: URI,
+BaseURI: BaseURI,upper: upper,lower: lower,page: true,Store: {},store: [],
+array: [],create: create,createFrag: createFrag,isElement: isHTML,
+Extender: Extender,isCollection: isCollection,populate: populate, List: List,
+Bool: type,walk_the_DOM: walk,walk: walk,DefineProperty: DefineProperty,
+nthChild: nthChild,DefineProperties: DefineProperties,explode: explode,DefineAccessors: DefineAccessors,
+index: index,Index: Index,Children: Children,type: type,types: types, Reduce: Reduce,
+ChildPos: ChildPos,tag: tag,blob: blob,element: element,show: show,
+objects: objects,arrays: arrays,functions: functions,strings: strings,
+numbers: numbers,booleans: booleans, removeClass: removeClass,
+invalidChars: invalidChars,isAbsent: isAbsent, 
+isNumber: plain.numbers,isString: plain.strings,removeAttr:removeAttr,  
+isUndefined: type.undefineds,isPrimitive: type.primitives,isArray: plain.arrays,
+isObject: plain.objects,isFunction: plain.functions,Attr:Attr,attrHooks:attrHooks,
+isBoolean: plain.booleans,isPresent: isPresent,addClass:addClass, hasClass: hasClass,
+computedStyle: computedStyle, getElementsByAttribute: getElementsByAttribute
+
+})
+
+
 
 function loadStatus (  ) {
     return sapi.readyState;
@@ -1902,6 +1985,20 @@ function getElementsByAttribute(attribute, context){ //"div[data-dim='dimmer']",
 }
 
 
+
+var getElementsByAttribute = function (att, value) {
+var results = [];
+walk_the_DOM(document.body, function (node) {
+var actual = node.nodeType === 1 && node.getAttribute(att);
+if (typeof actual === 'string' &&
+(actual === value || typeof value !== 'string')) {
+results.push(node);
+}
+});
+return results;
+};
+
+
 function Attr(element, attr, value){//element = element/nodeList
 /*Attr(ele,"title", " ")--empty; elem.Attr("id", 'clicked') --remove/add if found/not found
 Attr(div, 'data-cardboard', "Shelf_One")--remove/add if found/not found
@@ -1927,14 +2024,6 @@ if (typeof attributesString !== "string") {return;}
    valueAdded = attributesString ? attributesString.concat(" " + value) : value;
 
 }
-
-
-
-
-
-
-
-
 attributes.forEach(function(attribute){
     if(attribute == value){counter++;}else{stack.push(attribute);}//The subtle job
 });
@@ -2315,91 +2404,9 @@ if (object.ownerDocument == document) {return true}
 
 
 
-function Extend() {
-    var src, copyIsArray, copy, name, options, clone,
-        target = arguments[ 0 ] || {},
-        i = 1,
-        length = arguments.length,
-        deep = false;
-
-    // Handle a deep copy situation
-    if ( typeof target === "boolean" ) {
-        deep = target;
-
-        // skip the boolean and the target
-        target = arguments[ i ] || {};
-        i++;
-    }
-
-    // Handle case when target is a string or something (possible in deep copy)
-    if ( typeof target !== "object" && !plain.functions( target ) ) {
-        target = {};
-    }
-
-    // extend jQuery itself if only one argument is passed
-    if ( i === length ) {
-        target = this;
-        i--;
-    }
-
-    for ( ; i < length; i++ ) {
-
-        // Only deal with non-null/undefined values
-        if ( ( options = arguments[ i ] ) != null ) {
-
-            // Extend the base object
-            for ( name in options ) {
-                src = target[ name ];
-                copy = options[ name ];
-
-                // Prevent never-ending loop
-                if ( target === copy ) {
-                    continue;
-                }
-// a(plain.objects(copy))
-                // Recurse if we're merging plain objects or arrays
-                if ( deep && copy && ( plain.objects( copy ) ||
-                    ( copyIsArray = plain.arrays( copy ) ) ) ) {
-
-                    if ( copyIsArray ) {
-                        copyIsArray = false;
-                        clone = src && plain.arrays( src ) ? src : [];
-
-                    } else {
-                        clone = src && plain.objects( src ) ? src : {};
-                    }
-
-                    // Never move original objects, clone them
-                    target[ name ] = Extend( deep, clone, copy );
-
-                // Don't bring in undefined values
-                } else if ( copy !== undefined ) {
-                    target[ name ] = copy;
-                }
-            }
-        }
-    }
-
-    // Return the modified object
-    return target;
-}
 
 
-
-    function extend(receiver, supplier) {
-        if (!arguments.length) {
-            throw new Error("Techie: Usage: pt.extend(receiver, supplier) or pt.extend(object) //extend pt with yours")
-        }
-        if ( arguments.length < 2 ) {
-            supplier = receiver;
-            receiver = this;
-        }
-        if (receiver == this) {
-        	Extender([Techie.prototype, this], [supplier]);
-        }else{
-        mixin( receiver, supplier);
-        } return receiver;
-    }
+    
 
     function Extender(Recievers, Suppiers) {
         if (!Recievers) {
@@ -2435,17 +2442,19 @@ function Extend() {
 
     function type(datum, string) {
         if (type.isAtype(datum)) {
-            if (string != null ) {
+            if (string && string != null ) {
                 if (toString.call(string) == "[object String]") {
                    return typeof datum === string;
-                } else { Techie.error("type", "pt.type({}, 'object'); //true, type(28, 'number'); //true");
+                } else { Techie.error("type", "pt.type({}, 'object'); //true, type(28); //number");
                 }
             }
             return typeof(datum);
         }
         return null;
     }
-    var types = type.prototype = {
+
+mixin(type, 
+    {
             numbers: function(x) {
                 return toString.call(x) == "[object Number]";
             },
@@ -2516,11 +2525,46 @@ function Extend() {
                 "collection": "[object HTMLCollection]", "nodeList": "[object HTMLNodeList]",
                 "date": "[object Date]",  "regExp": "[object RegExp]", 
                 techie: "[object Techie]"
-                }
-        };
-    mixin(Techie, types);
-    mixin(type, types);
+                },
+            data: {
+                "undefined": "undefined", "null": "null", "nan": "NaN",
+                 "boolean": "Boolean", "string": "String", "number": "Number",
+                 "array": "Array", "object": "Object", "function": "Function",
+                 "date": "Date", "regexp": "RegExp", "techie": "Techie" 
+            }
+        });
+    mixin(Techie, type);
+    mixin(types, type);
 
+function isTechie(object){
+    return object.isTechie && object.techieString == "[object Techie]";
+}
+
+ function types(arg, obj){//if(!(Type("string", "number", "object").In())){return;}
+   var args = explode(arguments), object, bool = false, strings = [], that = this;
+   args.forEach(function(arg){
+      if (typeof arg === "string") {
+         strings.push(arg);
+       return;
+    }
+      object = arg;
+   });
+Techie.error( "type", "string", !!strings.length );
+return {
+   In: function(obj){ 
+    obj = obj || this;
+      strings.forEach(function(string){
+         forEach(function(prop){ 
+            if (typeof prop === string) {
+               bool = true;
+            }
+         }, obj);
+      }, this)
+return bool;
+   }.bind(that)
+};
+
+}
 
     function objects(o) {
         var N = typeof o === 'object' || Object.prototype.toString.call(o) == "[object Object]";
@@ -2708,7 +2752,7 @@ function Extend() {
         forEach: function(fn, element, Thisarg) {
             element = Children(element || this);
             for (var index in element){
-                if (element[index].nodeType && fn.call) {
+                if (element[index].nodeType && fn && fn.call) {
                      fn.call(Thisarg || element[index], element[index], index, element);
 
                 } 
@@ -2746,6 +2790,12 @@ function Extend() {
 
         text: function(str) {
             this.setText(str, this);
+        },
+        html: function(blob){
+            this.each(function(){
+                this.innerHTML = blob;
+            });
+            return this;
         },
         text: function (element){
             element = element || this;
@@ -2961,6 +3011,11 @@ return  this.stack;
            var context = nextSibling == element ? this : element;
            if ( !nextSibling.nodeType && !(context.nodeType || isCollection(context)) ) {return;}
            context = context.nodeType ? [context] : context;
+           if (typeof nextSibling === "string") {
+            nextSibling = (/^\w+$/).test(nextSibling.trim()) ? 
+                sapi.create(nextSibling): createFrag(nextSibling);
+           }
+            Techie.error("append", "html", isHTML(nextSibling));
            forEach (function( element, index ) {
               element.parentNode.insertBefore(nextSibling, element.nextSibling);
          }, context);
@@ -2972,6 +3027,11 @@ return  this.stack;
            var context = previousSibling == element ? this : element;
            if ( !previousSibling.nodeType && !(context.nodeType || isCollection(context)) ) {return;}
            context = context.nodeType ? [context] : context;
+           if (typeof previousSibling === "string") {
+            previousSibling = (/^\w+$/).test(previousSibling.trim()) ? 
+                sapi.create(previousSibling): createFrag(previousSibling);
+           }
+            Techie.error("prepend", "html", isHTML(previousSibling));
            forEach (function( element, index ){
                        element.parentNode.insertBefore(previousSibling, element);
 }, context);
@@ -3001,7 +3061,7 @@ return  this.stack;
            return this;
         },
 
-  contains: function (refNode, otherNode){
+  contains: this.contains || function (refNode, otherNode){
 if (typeof refNode.contains === "function" &&
 (!client.engine.webkit || client.engine.webkit >= 522)){
 return refNode.contains(otherNode);
@@ -3019,7 +3079,8 @@ return false;
 }
 },
 
-matchesSelector: function (element, selector){ //clunky workaround. serious test required to standardize.
+matchesSelector: this.matchesSelector || function (element, selector){ 
+//clunky workaround. serious test required to standardize.
   if (element == null ) {
 return false;
   } /*else if ( element && element.matches) {
@@ -3036,7 +3097,8 @@ return element.webkitMatchesSelector(selector);
 try { return element.querySelector(selector) != null; }catch (err) {return false;}
 }
 },
-        appendchild: function(element, child) { //Used to create last child
+        appendchild: this.appendchild || function(element, child) {
+         //Used to create last child
             if (!element) {return;}
            child = (!child && (element.nodeType || isCollection(element))) ? element : child;
            var context = child == element ? this : element; a(context)
@@ -3053,12 +3115,12 @@ try { return element.querySelector(selector) != null; }catch (err) {return false
            if (context.nodeType != 1) {return;}
             return slice.call(context.querySelectorAll(selector));
         },
-        all: function(selector, context) {
+        all: this.all || function(selector, context) {
             context = context || (this.nodeType ? this : document);
            if (context.nodeType != 1) {return;}
             return slice.call(context.querySelectorAll(selector));
         },
-        idName: function(id, context) {
+        id: function(id, context) {
             context = context || (this.nodeType ? this : document);
            if (!context.nodeType) {return;}
             return context.getElementById(id);
@@ -3082,9 +3144,6 @@ try { return element.querySelector(selector) != null; }catch (err) {return false
         items: items,
         props: Element.props,
         show: show,
-        mixin: mixin,
-        extend: extend,
-        Extender: Extender
     };
 
 

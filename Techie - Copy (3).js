@@ -549,13 +549,7 @@ nodes = slice.call(selector);
     while ( length ) { this[ index ] = others[ index ]; length--; index++; } index = 0; return this;
 }
 if (!(nodes[0] && nodes[0].nodeType)) { return this;}
-this.techie = techieString = "[object Techie]";
-this.toString = function toString( args, nothing ){
-    if (!arguments.length) {
-        return this.techieString;
-    }
-    return Object.prototype.toString.call((nothing = []).concat[arguments]);
-}
+
 forEach(function( node, index, object ) { this[index] = node;
     prevObject = element.previous(node);
 nextObject = element.next( node );
@@ -571,8 +565,16 @@ DefineProperties(this, {
  selector: selector, prevObject: prevObject,nextObject: nextObject,context: context,nodes: nodes,length: nodes.length
 }, false);
 
+this.techie = this.techieString = "[object Techie]";
+this.isTechie = true;
+this.toString = function toString( arg, nothing ){
+    if (!arguments.length) {
+        return this.techieString;
+    }
+    var type = typeof this, data = types.data, datum = data[type]
+    return Object.prototype.toString.call(arguments[0]);
+}
         },
-
 
 status: loadStatus(),
 state:  sapi.readyState,
@@ -2471,12 +2473,11 @@ function Extend() {
                 return toString.call(x) == "[object Array]";
             },
             primitives: function(datum) {
-                var primitives = ["[object String]", "[object Number]", "[object Boolean]", "[object Nan]",
-                        "[object Null]", "[object Undefined]"
-                    ],
-                 isPrimitive = false, counter = 0, string = toString.call(datum);
-                 while ((primitive = primitives[counter++])) {if (string == primitive) { isPrimitive = true;}}
-                return isPrimitive;
+            var primitive, isPrimitive = false, counter = 0,  primitives  = [ "[object Undefined]",
+            "[object Number]","[object Boolean]","[object Nan]","[object Null]","[object String]"
+            ], string = toString.call(datum);
+                 while ((primitive = primitives[counter++])) {if (string == primitive) { 
+                    isPrimitive = true;}} return isPrimitive;
             },
 
             isAtype: function(string) {
@@ -2516,7 +2517,13 @@ function Extend() {
                 "collection": "[object HTMLCollection]", "nodeList": "[object HTMLNodeList]",
                 "date": "[object Date]",  "regExp": "[object RegExp]", 
                 techie: "[object Techie]"
-                }
+                },
+            data: {
+                "undefined": "undefined", "null": "null", "nan": "NaN",
+                 "boolean": "Boolean", "string": "String", "number": "Number",
+                 "array": "Array", "object": "Object", "function": "Function",
+                 "date": "Date", "regexp": "RegExp", "techie": "Techie" 
+            }
         };
     mixin(Techie, types);
     mixin(type, types);
